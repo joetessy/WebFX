@@ -24,7 +24,7 @@ I may also use tone.js and pizzicato.js libraries to add additional functionalit
 **Objective:** Create a user interface for interacting with the audio. This should add 3-4 basic controls to the browser that users can control.
 
 ### Phase 3: Make it pretty
-**Objective:** The project should look like an interactive effect. Add a way to visually represent the sound, like a Fourier spectrum graph. Make controls intuitive and easy to use (knobs and sliders).
+**Objective:** The project should look like an interactive effect, similar to a guitar pedal. Add a way to visually represent the sound, like a Fourier spectrum graph. Make controls intuitive and easy to use (knobs and sliders).
 
 ### Bonus
 **Objective:** If time permits, I would like to add more effects and possibly turn JavaScriptDelay into a full effect rack. I am interested in exploring tremelo, flanger, reverb, and distortion.
