@@ -19,3 +19,7 @@ JavaScriptDelay will primarily use the WebAudio API for dealing with audio input
 
 ### Phase 3: Make it pretty
 **Objective:** The project should look like an interactive effect. Add a way to visually represent the sound, like a Fourier spectrum graph. Make controls intuitive and easy to use (knobs and sliders).
+
+## Wireframe
+
+![wireframe](./wireframe.png)
