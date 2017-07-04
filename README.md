@@ -12,7 +12,7 @@ JavaScriptDelay will primarily use the WebAudio API for dealing with audio input
 ## Implementation Timeline
 
 ### Phase 1: Figure out audio
-**Objective:** Get audio input working. Lay the groundwork for the effect. Define specific parameters that users will be able to control.
+**Objective:** Get audio input working. Lay out the groundwork for the effect. Define specific parameters that users will be able to control.
 
 ### Phase 2: Interface
 **Objective:** Create a user interface for interacting with the audio. This should add 3-4 basic controls to the browser that users can control.
