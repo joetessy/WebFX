@@ -31,7 +31,7 @@ body {
 
 .js-delay {
   height: 500px;
-  width: 500px;
+  width: 400px;
   border-radius: 10px;
   border: 2px solid black;
 }
@@ -40,10 +40,9 @@ body {
   display: flex;
   align-items: flex-start;
   display: flex;
-  align-items: flex-start;
-  width: 80%;
-  margin: 30px;
-  justify-content: space-between;
+  width: 100%;
+  padding-top: 30px;
+  justify-content: space-around;
 }
 
 .audio-on {
@@ -80,25 +79,27 @@ body {
   align-items: center;
 }
 
+
 .volume-container{
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
+  margin: 10px;
 }
 
 #volume {
-    margin: 20px;
-    height: 50px;
-    width: 3px;
-    border: none;
-    outline: none;
-    position: relative;
-    background-color: black;
-    border-radius: 10px;
+  height: 100px;
+  width: 3px;
+  border: none;
+  outline: none;
+  position: relative;
+  background-color: black;
+  border-radius: 10px;
 }
 #volume .ui-slider-range{
   background-color: red;
   color: red;
-  height: 50px;
+  height: 100px;
   width: 3px;
   bottom: 0;
   position: absolute;
@@ -126,8 +127,8 @@ body {
 }
 
 .waveform{
-  height: 200px;
-  width: 200px;
+  height: 150px;
+  width: 150px;
   border-radius: 50%;
   background-color: black;
 }
