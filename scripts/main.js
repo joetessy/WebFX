@@ -29,7 +29,6 @@ const audioOn = document.querySelector('.audio-on');
 const audioOff = document.querySelector('.audio-off');
 onOff.onclick = startStopAudio;
 
-
 // Handles starting / stopping audio.
 function startStopAudio(){
   onOff.classList.toggle('audio-off');
@@ -42,7 +41,7 @@ function startStopAudio(){
     onOff.innerHTML='ON';
     visualize();
   } else {
-    source.disconnect(analyser);
+    gainNode.disconnect(analyser);
     gainNode.gain.value = 0;
     onOff.innerHTML='OFF';
     gainNode = null;
