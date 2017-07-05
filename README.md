@@ -32,4 +32,4 @@ I may also use tone.js and pizzicato.js libraries to add additional functionalit
 
 ## Wireframe
 
-![wireframe](./wireframe.png)
+![wireframe](./docs/wireframe.png)
