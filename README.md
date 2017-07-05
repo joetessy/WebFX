@@ -18,13 +18,22 @@ I may also use tone.js and pizzicato.js libraries to add additional functionalit
 ## Implementation Timeline
 
 ### Phase 1: Figure out audio
-**Objective:** Get audio input working. Lay out the groundwork for the effect. Define specific parameters and ranges that users will be able to control.
+..* Get a live audio stream working in the browser
+..* Set up control for turning sound and off
+..* Set up control for volume
+..* Decide on specific parameters and ranges that users can control
+..* Start to work on delay effect
 
 ### Phase 2: Interface
-**Objective:** Create a user interface for interacting with the audio. This should add 3-4 basic controls to the browser that users can control.
+..* Create user controls for delay effects
+..* Use interactive knobs or sliders for users to control
+..* Have controls for delay speed, intensity, and echo.
+
 
 ### Phase 3: Make it pretty
-**Objective:** The project should look like an interactive effect, similar to a guitar pedal. Add a way to visually represent the sound, like a Fourier spectrum graph. Make controls intuitive and easy to use (knobs and sliders).
+..* Make the project actually look like an effect pedal
+..* Test app out with some users, see if the UI is intuitive and easy
+..* Add waveform or Fourier spectrum so users can see the audio change as they manipulate it.
 
 ### Bonus
 **Objective:** If time permits, I would like to add more effects and possibly turn JavaScriptDelay into a full effect rack. I am interested in exploring tremelo, flanger, reverb, and distortion.
