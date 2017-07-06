@@ -52,6 +52,12 @@ body {
   justify-content: space-around;
 }
 
+.tremolo-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .audio-on, .delay-on, .tremolo-on{
   height: 50px;
   width: 50px;

@@ -244,9 +244,7 @@ function tremey(minGain){
   let maxGain = 1;
   let val = 0;
   let direction;
-  console.log(minGain);
-
-  setInterval(function(){
+  var tremoloInterval = setInterval(function(){
     if (val >= maxGain){
       direction = 'down';
     } else if (val <= minGain){
@@ -260,6 +258,7 @@ function tremey(minGain){
       tremoloNode.gain.value = val;
     }
   }, 10);
+  console.log(tremoloNode.gain.value);
 }
 
 
@@ -270,7 +269,6 @@ $('#tremolo-depth').slider({
   value: 50,
   animate: true,
   slide: function(event, ui){
-    if (volumeNode)
     console.log(ui.value / 100);
     tremey((ui.value) / 100);
   }
