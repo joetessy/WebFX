@@ -4,8 +4,9 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 let audioContext = new AudioContext();
 let source = null,
+    mixNode = null,
     volumeNode = null,
-    inputPoint = null;
+    tremoloNode = null;
 let volumeAnalyser = audioContext.createAnalyser();
 let drawVisual;
 
@@ -33,9 +34,12 @@ onOff.onclick = startStopAudio;
 function startStopAudio(){
   if (volumeNode === null || volumeNode.gain.value === 0) {
     onOff.className = 'audio-on';
+    mixNode = audioContext.createGain();
+    mixNode.gain.value = 1;
     volumeNode = audioContext.createGain();
     volumeNode.gain.value = .5;
-    source.connect(volumeNode);
+    source.connect(mixNode);
+    mixNode.connect(volumeNode);
     volumeNode.connect(volumeAnalyser);
     volumeAnalyser.connect(audioContext.destination);
     onOff.innerHTML='ON';
@@ -121,6 +125,8 @@ let feedback = audioContext.createGain();
 feedback.gain.value = 0;
 var filter = audioContext.createBiquadFilter();
 filter.frequency.value = 10000;
+let bypassNode = audioContext.createGain();
+bypassNode.gain.value = 0.5;
 
 function handleDelay(){
   if (delayOnOff.className === 'delay-off' && source){
@@ -131,17 +137,17 @@ function handleDelay(){
   } else {
     delayOnOff.className = 'delay-off';
     delayOnOff.innerHTML = 'OFF';
-    delayEffect.disconnect(volumeNode);
+    bypassNode.disconnect(mixNode);
   }
 }
 
 function createDelay(){
-  source.connect(filter);
-  filter.connect(delayEffect);
+  source.connect(delayEffect);
   delayEffect.connect(feedback);
-  feedback.connect(filter);
-  source.connect(volumeNode);
-  delayEffect.connect(volumeNode);
+  feedback.connect(delayEffect);
+  delayEffect.connect(filter);
+  filter.connect(bypassNode);
+  bypassNode.connect(mixNode);
 }
 
 function setDelayTime(interval){
@@ -150,6 +156,9 @@ function setDelayTime(interval){
 
 function setDelayIntensity(intensity){
   feedback.gain.value = intensity;
+}
+function setDelayBypass(intensity){
+  bypassNode.gain.value = intensity;
 }
 
 function setDelayFilter(intensity){
@@ -189,5 +198,92 @@ $('#delay-filter').slider({
   slide: function(event, ui){
     if (volumeNode)
     setDelayFilter(ui.value * 100);
+  }
+});
+
+$('#delay-bypass').slider({
+  range: 'min',
+  min: 0,
+  max: 100,
+  value: 50,
+  animate: true,
+  slide: function(event, ui){
+    if (volumeNode)
+    setDelayBypass(ui.value / 100);
+  }
+});
+
+const tremoloOnOff = document.querySelector('#tremolo-on-off');
+tremoloOnOff.onclick = handleTremolo;
+
+tremoloNode = audioContext.createGain();
+
+function handleTremolo(){
+  if (tremoloOnOff.className === 'tremolo-off' && source){
+    tremoloOnOff.className = 'tremolo-on';
+    tremoloOnOff.innerHTML = 'ON';
+    createTremolo();
+
+  } else {
+    tremoloOnOff.className = 'tremolo-off';
+    tremoloOnOff.innerHTML = 'OFF';
+
+  }
+}
+
+function createTremolo(){
+  if (mixNode){
+    mixNode.disconnect(volumeNode);
+    mixNode.connect(tremoloNode);
+    tremoloNode.connect(volumeNode);
+  }
+}
+
+
+function tremey(minGain){
+  let maxGain = 1;
+  let val = 0;
+  let direction;
+  console.log(minGain);
+
+  setInterval(function(){
+    if (val >= maxGain){
+      direction = 'down';
+    } else if (val <= minGain){
+      direction = 'up';
+    }
+    if (direction === 'down'){
+      val -= .1;
+      tremoloNode.gain.value = val;
+    } else if (direction === 'up'){
+      val += .1;
+      tremoloNode.gain.value = val;
+    }
+  }, 10);
+}
+
+
+$('#tremolo-depth').slider({
+  range: 'min',
+  min: 0,
+  max: 100,
+  value: 50,
+  animate: true,
+  slide: function(event, ui){
+    if (volumeNode)
+    console.log(ui.value / 100);
+    tremey((ui.value) / 100);
+  }
+});
+
+$('#tremolo-speed').slider({
+  range: 'min',
+  min: 0,
+  max: 100,
+  value: 0,
+  animate: true,
+  slide: function(event, ui){
+    // if (volumeNode)
+    // setDelayIntensity((ui.value) / 100 * .8);
   }
 });

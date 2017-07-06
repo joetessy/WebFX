@@ -33,7 +33,7 @@ body {
   flex-direction: column;
 }
 
-.volume-effect, .delay-effect {
+.volume-effect, .delay-effect, .tremolo-effect {
   width: 400px;
   border-radius: 10px;
   border: 2px solid black;
@@ -41,13 +41,6 @@ body {
   margin: 20px;
 }
 
-.volume-effect {
-  height: 200px;
-}
-
-.delay-effect {
-  height: 200px;
-}
 .volume-on-container{
   width: 33.33%
 }
@@ -59,7 +52,7 @@ body {
   justify-content: space-around;
 }
 
-.audio-on, .delay-on{
+.audio-on, .delay-on, .tremolo-on{
   height: 50px;
   width: 50px;
   border-radius: 50%;
@@ -71,7 +64,7 @@ body {
   background-color: white;
 }
 
-.audio-off, .delay-off {
+.audio-off, .delay-off, .tremolo-off {
   background-color: white;
   height: 50px;
   width: 50px;
@@ -83,7 +76,7 @@ body {
   justify-content: center;
 }
 
-#on-off, #delay-on-off {
+#on-off, #delay-on-off, #tremolo-on-off{
   cursor: pointer;
 }
 
@@ -154,7 +147,7 @@ body {
   justify-content: center;
 }
 
-.delay-on-container {
+.delay-on-container, .tremolo-on-container {
   display: flex;
   justify-content: center;
 }
@@ -162,7 +155,9 @@ body {
 .delay-speed-slider-container,
 .delay-intensity-slider-container,
 .delay-filter-slider-container,
-.delay-filter-q-slider-container {
+.delay-bypass-slider-container,
+.tremelo-speed-slider-container,
+.tremelo-depth-slider-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -172,7 +167,9 @@ body {
 #delay-time,
 #delay-intensity,
 #delay-filter,
-#delay-filter-q {
+#delay-bypass,
+#tremolo-depth,
+#tremolo-speed {
   margin: 10px;
   height: 3px;
   width: 200px;
@@ -185,7 +182,9 @@ body {
 #delay-time .ui-slider-range,
 #delay-intensity .ui-slider-range,
 #delay-filter .ui-slider-range,
-#delay-filter-q .ui-slider-range{
+#delay-bypass .ui-slider-range,
+#tremolo-depth .ui-slider-range,
+#tremolo-speed .ui-slider-range{
   background-color: red;
   color: red;
   height: 3px;
@@ -205,7 +204,9 @@ body {
 #delay-time > span,
 #delay-intensity > span,
 #delay-filter > span,
-#delay-filter-q > span {
+#delay-bypass > span,
+#tremolo-depth > span,
+#tremolo-speed > span {
 	position: absolute;
 	z-index: 2;
 	cursor: pointer;
