@@ -6,7 +6,7 @@ let audioContext = new AudioContext();
 let source = null,
     gainNode = null,
     inputPoint = null;
-let analyser = audioContext.createAnalyser();
+let volumeAnalyser = audioContext.createAnalyser();
 let drawVisual;
 
 // Checks for input. If there is, start the stream
@@ -31,17 +31,19 @@ onOff.onclick = startStopAudio;
 
 // Handles starting / stopping audio.
 function startStopAudio(){
-  onOff.classList.toggle('audio-off');
   if (gainNode === null || gainNode.gain.value === 0) {
+    onOff.className = 'audio-on';
     gainNode = audioContext.createGain();
     gainNode.gain.value = .5;
     source.connect(gainNode);
-    gainNode.connect(analyser);
-    analyser.connect(audioContext.destination);
+    gainNode.connect(volumeAnalyser);
+    source.connect(delayEffect);
+    volumeAnalyser.connect(audioContext.destination);
     onOff.innerHTML='ON';
     visualize();
   } else {
-    gainNode.disconnect(analyser);
+    onOff.className = 'audio-off';
+    gainNode.disconnect(volumeAnalyser);
     gainNode.gain.value = 0;
     onOff.innerHTML='OFF';
     gainNode = null;
@@ -72,14 +74,14 @@ let canvasCtx = canvas.getContext('2d');
 function visualize(){
   let WIDTH = canvas.width;
   let HEIGHT = canvas.height;
-  analyser.fftSize = 2048;
-  let bufferLength = analyser.frequencyBinCount;
+  volumeAnalyser.fftSize = 2048;
+  let bufferLength = volumeAnalyser.frequencyBinCount;
   let dataArray = new Uint8Array(bufferLength);
   canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
 
   function draw(){
     drawVisual = requestAnimationFrame(draw);
-    analyser.getByteTimeDomainData(dataArray);
+    volumeAnalyser.getByteTimeDomainData(dataArray);
     canvasCtx.fillStyle = 'rgb(0, 0, 0)';
     canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
@@ -104,3 +106,56 @@ function visualize(){
   }
   draw();
 }
+const delayOnOff = document.querySelector('#delay-on-off');
+delayOnOff.onclick = handleDelay;
+let delayEffect = audioContext.createDelay(0.8);
+let delayGain = audioContext.createGain(1);
+
+
+
+function handleDelay(){
+  if (delayOnOff.className === 'delay-off' && source){
+    delayOnOff.className = 'delay-on';
+    delayOnOff.innerHTML = 'ON';
+    delayGain.connect(delayEffect);
+    delayEffect.connect(delayGain);
+    delayGain.connect(gainNode);
+    delayEffect.delayTime.value = 0.3;
+  } else {
+    delayOnOff.className = 'delay-off';
+    delayOnOff.innerHTML = 'OFF';
+    delayEffect.disconnect(gainNode);
+  }
+}
+
+function setDelayTime(interval){
+  delayEffect.delayTime.value = interval;
+}
+
+function setDelayIntensity(intensity){
+  delayGain.gain.value = intensity;
+}
+
+$('#delay-time').slider({
+  range: 'min',
+  min: 0,
+  max: 100,
+  value: 50,
+  animate: true,
+  slide: function(event, ui){
+    if (gainNode)
+    setDelayTime((ui.value) / 100 * .7);
+  }
+});
+
+$('#delay-intensity').slider({
+  range: 'min',
+  min: 0,
+  max: 100,
+  value: 0,
+  animate: true,
+  slide: function(event, ui){
+    if (gainNode)
+    setDelayTime((ui.value) / 100 * .7);
+  }
+});

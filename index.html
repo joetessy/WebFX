@@ -11,16 +11,37 @@
     <header></header>
 
     <h1>JavaScript Delay</h1>
-    <div class='js-delay'>
-        <div class='top-controls'>
-          <div id='on-off' class='audio-on'>ON/OFF</div>
-          <canvas class='waveform'></canvas>
-          <div class='volume-container'>
-            <div id='volume'></div>
-            <h2> Volume </h2>
-          </div>
+    <div class='volume-effect'>
+      <h2> Volume </h2>
+      <div class='volume-controls'>
+        <div class='volume-on-container'/>
+          <div id='on-off' class='audio-off'>ON/OFF</div>
         </div>
+        <div class='waveform-container'>
+          <canvas class='waveform'></canvas>
+        </div>
+        <div class='volume-slider-container'>
+          <div id='volume'></div>
+        </div>
+      </div>
     </div>
+    <div class='delay-effect'>
+      <h2> Delay </h2>
+      <div class='delay-controls'>
+        <div class='delay-on-container'/>
+          <div id='delay-on-off' class='delay-off'>OFF</div>
+        </div>
+        <div class='delay-speed-slider-container'>
+          <h3> Speed </h3>
+          <div id='delay-time'></div>
+        </div>
+        <div class='delay-intensity-slider-container'>
+          <h3> Intensity </h3>
+          <div id='delay-intensity'></div>
+        </div>
+      </div>
+    </div>
+
 
 
 
