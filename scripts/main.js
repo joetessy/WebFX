@@ -4,7 +4,7 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 let audioContext = new AudioContext();
 let source = null,
-    gainNode = null,
+    volumeNode = null,
     inputPoint = null;
 let volumeAnalyser = audioContext.createAnalyser();
 let drawVisual;
@@ -31,27 +31,28 @@ onOff.onclick = startStopAudio;
 
 // Handles starting / stopping audio.
 function startStopAudio(){
-  if (gainNode === null || gainNode.gain.value === 0) {
+  if (volumeNode === null || volumeNode.gain.value === 0) {
     onOff.className = 'audio-on';
-    gainNode = audioContext.createGain();
-    gainNode.gain.value = .5;
-    source.connect(gainNode);
-    gainNode.connect(volumeAnalyser);
-    source.connect(delayEffect);
+    volumeNode = audioContext.createGain();
+    volumeNode.gain.value = .5;
+    source.connect(volumeNode);
+    volumeNode.connect(volumeAnalyser);
     volumeAnalyser.connect(audioContext.destination);
     onOff.innerHTML='ON';
     visualize();
   } else {
     onOff.className = 'audio-off';
-    gainNode.disconnect(volumeAnalyser);
-    gainNode.gain.value = 0;
+    volumeNode.disconnect(volumeAnalyser);
+    volumeNode.gain.value = 0;
     onOff.innerHTML='OFF';
-    gainNode = null;
+    volumeNode = null;
   }
 }
 
+// Volume
+
 function setVolume(volume){
-  gainNode.gain.value = volume;
+  volumeNode.gain.value = volume;
 }
 
 $('#volume').slider({
@@ -62,11 +63,12 @@ $('#volume').slider({
   value: 50,
   animate: true,
   slide: function(event, ui){
-    if (gainNode)
+    if (volumeNode)
     setVolume((ui.value) / 100);
   }
 });
 
+// Oscilloscope
 
 let canvas = document.querySelector('.waveform');
 let canvasCtx = canvas.getContext('2d');
@@ -106,26 +108,40 @@ function visualize(){
   }
   draw();
 }
+
+// DELAY
+
 const delayOnOff = document.querySelector('#delay-on-off');
 delayOnOff.onclick = handleDelay;
-let delayEffect = audioContext.createDelay(0.8);
-let delayGain = audioContext.createGain(1);
 
 
+let delayEffect = audioContext.createDelay(0.5);
+delayEffect.delayTime.value = 0.25;
+let feedback = audioContext.createGain();
+feedback.gain.value = 0;
+var filter = audioContext.createBiquadFilter();
+filter.frequency.value = 10000;
 
 function handleDelay(){
   if (delayOnOff.className === 'delay-off' && source){
     delayOnOff.className = 'delay-on';
     delayOnOff.innerHTML = 'ON';
-    delayGain.connect(delayEffect);
-    delayEffect.connect(delayGain);
-    delayGain.connect(gainNode);
-    delayEffect.delayTime.value = 0.3;
+    createDelay();
+
   } else {
     delayOnOff.className = 'delay-off';
     delayOnOff.innerHTML = 'OFF';
-    delayEffect.disconnect(gainNode);
+    delayEffect.disconnect(volumeNode);
   }
+}
+
+function createDelay(){
+  source.connect(filter);
+  filter.connect(delayEffect);
+  delayEffect.connect(feedback);
+  feedback.connect(filter);
+  source.connect(volumeNode);
+  delayEffect.connect(volumeNode);
 }
 
 function setDelayTime(interval){
@@ -133,7 +149,11 @@ function setDelayTime(interval){
 }
 
 function setDelayIntensity(intensity){
-  delayGain.gain.value = intensity;
+  feedback.gain.value = intensity;
+}
+
+function setDelayFilter(intensity){
+  filter.frequency.value = intensity;
 }
 
 $('#delay-time').slider({
@@ -143,8 +163,8 @@ $('#delay-time').slider({
   value: 50,
   animate: true,
   slide: function(event, ui){
-    if (gainNode)
-    setDelayTime((ui.value) / 100 * .7);
+    if (volumeNode)
+    setDelayTime((ui.value) / 100 * .5);
   }
 });
 
@@ -155,7 +175,19 @@ $('#delay-intensity').slider({
   value: 0,
   animate: true,
   slide: function(event, ui){
-    if (gainNode)
-    setDelayTime((ui.value) / 100 * .7);
+    if (volumeNode)
+    setDelayIntensity((ui.value) / 100 * .8);
+  }
+});
+
+$('#delay-filter').slider({
+  range: 'min',
+  min: 0,
+  max: 100,
+  value: 100,
+  animate: true,
+  slide: function(event, ui){
+    if (volumeNode)
+    setDelayFilter(ui.value * 100);
   }
 });
