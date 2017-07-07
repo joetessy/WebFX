@@ -1,13 +1,13 @@
-# JavaScriptDelay
+# WebFX
 
 ## MVP
 
-JavaScriptDelay is an interactive audio-effect app that functions as a delay-pedal for the guitar (or any other instrument). It will take in an analog signal and digitally alter it with a delay effect using some user controls.
+WebFX is an interactive audio-effect app that functions as a delay-pedal for the guitar (or any other instrument). It will take in an analog signal and digitally alter it with a delay effect using some user controls.
 
 
 ## Technologies
 
-JavaScriptDelay will primarily use the WebAudio API for dealing with audio input and manipulation. With WebAudio I should be able to support the following:
+WebFX will primarily use the WebAudio API for dealing with audio input and manipulation. With WebAudio I should be able to support the following:
 - [ ] Audio Input
 - [ ] ON/OFF & Volume Controls
 - [ ] Delay effect (intensity, speed etc)
@@ -37,7 +37,7 @@ I may also use tone.js and pizzicato.js libraries to add additional functionalit
 * Add waveform or Fourier spectrum so users can see the audio change as they manipulate it.
 
 ### Bonus
-**Objective:** If time permits, I would like to add more effects and possibly turn JavaScriptDelay into a full effect rack. I am interested in exploring tremelo, flanger, reverb, and distortion.
+**Objective:** If time permits, I would like to add more effects and possibly turn WebFX into a full effect rack. I am interested in exploring tremelo, flanger, reverb, and distortion.
 
 
 ## Wireframe
