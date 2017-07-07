@@ -240,11 +240,14 @@ function createTremolo(){
 }
 
 
-function tremey(minGain){
+var tremoloInterval;
+function setTremolo(minGain, speed){
+  console.log(minGain, speed);
+  if (tremoloInterval) clearInterval(tremoloInterval);
   let maxGain = 1;
   let val = 0;
   let direction;
-  var tremoloInterval = setInterval(function(){
+  tremoloInterval = setInterval(function(){
     if (val >= maxGain){
       direction = 'down';
     } else if (val <= minGain){
@@ -257,8 +260,7 @@ function tremey(minGain){
       val += .1;
       tremoloNode.gain.value = val;
     }
-  }, 10);
-  console.log(tremoloNode.gain.value);
+  }, speed);
 }
 
 
@@ -269,19 +271,17 @@ $('#tremolo-depth').slider({
   value: 50,
   animate: true,
   slide: function(event, ui){
-    console.log(ui.value / 100);
-    tremey((ui.value) / 100);
+    setTremolo((ui.value / 100), $('#tremolo-speed').slider('option', 'value'));
   }
 });
 
 $('#tremolo-speed').slider({
   range: 'min',
-  min: 0,
-  max: 100,
-  value: 0,
+  min: 0.5,
+  max: 40,
+  value: 10,
   animate: true,
   slide: function(event, ui){
-    // if (volumeNode)
-    // setDelayIntensity((ui.value) / 100 * .8);
+    setTremolo( ($('#tremolo-depth').slider('option', 'value') / 100), ui.value);
   }
 });

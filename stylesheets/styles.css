@@ -34,7 +34,7 @@ body {
 }
 
 .volume-effect, .delay-effect, .tremolo-effect {
-  width: 400px;
+  width: 350px;
   border-radius: 10px;
   border: 2px solid black;
   padding: 20px;
