@@ -4,9 +4,10 @@ body, div, h1, h2, h3, li {
   margin: 0;
 }
 
+
 h1 {
   text-align: center;
-  font-size: 26px;
+  font-size: 40px;
   margin: 20px auto;
 }
 
@@ -28,12 +29,41 @@ body {
   height: 100vh;
   width: 100vw;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-around;
+  flex-direction: row;
+  color: black;
+  background-color: #027BCE;
+}
+
+.content {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.info {
+  color: white;
+  display: flex;
   flex-direction: column;
+  width: 30%;
+  align-items: center;¡™
+}
+.info a {
+  color: white;
+  text-decoration: none;
+}
+.devicon-github-plain {
+  font-size: 4em;
+}
+
+.effects {
+  width: 70%;
 }
 
 .volume-effect, .delay-effect, .tremolo-effect {
+  background-color: #4BB3FD;
   width: 350px;
   border-radius: 10px;
   border: 2px solid black;
@@ -62,16 +92,14 @@ body {
   height: 50px;
   width: 50px;
   border-radius: 50%;
-  border: 5px solid green;
+  border: 5px solid #01FF70;
   margin: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
 }
 
 .audio-off, .delay-off, .tremolo-off {
-  background-color: white;
   height: 50px;
   width: 50px;
   border-radius: 50%;

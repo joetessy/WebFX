@@ -4,80 +4,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
     <link rel="stylesheet" href="stylesheets/styles.css">
 </head>
 
 <body>
-    <header></header>
+  <div class='content'>
+    <div class='info'>
+      <h1> WebFX </h1>
+      <a target='_blank' href='http://www.github.com/joetessy/WebFX'>
+        <i class="devicon-github-plain"></i>
+      </a>
 
-    <h1>WebFX</h1>
-    <div class='volume-effect'>
-      <h2> Volume </h2>
-      <div class='volume-controls'>
-        <div class='volume-on-container'/>
-          <div id='on-off' class='audio-off'>ON/OFF</div>
-        </div>
-        <div class='waveform-container'>
-          <canvas class='waveform'></canvas>
-        </div>
-        <div class='volume-slider-container'>
-          <div id='volume'></div>
+    </div>
+    <div class=effects>
+      <div class='volume-effect'>
+        <h2> Volume </h2>
+        <div class='volume-controls'>
+          <div class='volume-on-container'/>
+            <div id='on-off' class='audio-off'>ON/OFF</div>
+          </div>
+          <div class='waveform-container'>
+            <canvas class='waveform'></canvas>
+          </div>
+          <div class='volume-slider-container'>
+            <div id='volume'></div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class='delay-effect'>
-      <div class='delay-container'>
-        <h2> Delay </h2>
-        <div class='delay-controls'>
-          <div class='delay-on-container'/>
-            <div id='delay-on-off' class='delay-off'>OFF</div>
+      <div class='delay-effect'>
+        <div class='delay-container'>
+          <h2> Delay </h2>
+          <div class='delay-controls'>
+            <div class='delay-on-container'/>
+              <div id='delay-on-off' class='delay-off'>OFF</div>
+            </div>
+            <div class='delay-speed-slider-container'>
+              <h3> Speed </h3>
+              <div id='delay-time'></div>
+            </div>
+            <div class='delay-intensity-slider-container'>
+              <h3> Length </h3>
+              <div id='delay-intensity'></div>
+            </div>
+            </div>
+            <div class='delay-bypass-slider-container'>
+              <h3> Level </h3>
+              <div id='delay-bypass'></div>
+            </div>
+            <div class='delay-filter-slider-container'>
+              <h3> Filter </h3>
+              <div id='delay-filter'></div>
           </div>
-          <div class='delay-speed-slider-container'>
+        </div>
+      </div>
+      <div class='tremolo-effect'>
+        <h2> Tremolo </h2>
+        <div class='tremolo-controls'>
+          <div class='tremolo-on-container'/>
+            <div id='tremolo-on-off' class='tremolo-off'>OFF</div>
+          </div>
+
+          <div class='tremolo-depth-slider-container'>
+            <h3> Depth </h3>
+            <div id='tremolo-depth'></div>
+          </div>
+
+          <div class='tremolo-speed-slider-container'>
             <h3> Speed </h3>
-            <div id='delay-time'></div>
+            <div id='tremolo-speed'></div>
           </div>
-          <div class='delay-intensity-slider-container'>
-            <h3> Length </h3>
-            <div id='delay-intensity'></div>
-          </div>
-          </div>
-          <div class='delay-bypass-slider-container'>
-            <h3> Level </h3>
-            <div id='delay-bypass'></div>
-          </div>
-          <div class='delay-filter-slider-container'>
-            <h3> Filter </h3>
-            <div id='delay-filter'></div>
         </div>
       </div>
     </div>
-    <div class='tremolo-effect'>
-      <h2> Tremolo </h2>
-      <div class='tremolo-controls'>
-        <div class='tremolo-on-container'/>
-          <div id='tremolo-on-off' class='tremolo-off'>OFF</div>
-        </div>
-
-        <div class='tremolo-depth-slider-container'>
-          <h3> Depth </h3>
-          <div id='tremolo-depth'></div>
-        </div>
-
-        <div class='tremolo-speed-slider-container'>
-          <h3> Speed </h3>
-          <div id='tremolo-speed'></div>
-        </div>
-      </div>
-    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js" charset="utf-8"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
 
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js" charset="utf-8"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
-
-    <script src="scripts/main.js" charset="utf-8"></script>
+  <script src="scripts/main.js" charset="utf-8"></script>
 </body>
 
 </html>
