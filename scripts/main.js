@@ -217,6 +217,7 @@ const tremoloOnOff = document.querySelector('#tremolo-on-off');
 tremoloOnOff.onclick = handleTremolo;
 
 tremoloNode = audioContext.createGain();
+tremoloNode.gain.value = 1;
 
 function handleTremolo(){
   if (tremoloOnOff.className === 'tremolo-off' && source){
@@ -236,12 +237,13 @@ function createTremolo(){
     mixNode.disconnect(volumeNode);
     mixNode.connect(tremoloNode);
     tremoloNode.connect(volumeNode);
+    setTremolo(0, 20);
   }
 }
 
 
 var tremoloInterval;
-function setTremolo(minGain, speed){
+function setTremolo(minGain, speed = 20){
   console.log(minGain, speed);
   if (tremoloInterval) clearInterval(tremoloInterval);
   let maxGain = 1;
@@ -268,7 +270,7 @@ $('#tremolo-depth').slider({
   range: 'min',
   min: 0,
   max: 100,
-  value: 50,
+  value: 0,
   animate: true,
   slide: function(event, ui){
     setTremolo((ui.value / 100), $('#tremolo-speed').slider('option', 'value'));
@@ -278,7 +280,7 @@ $('#tremolo-depth').slider({
 $('#tremolo-speed').slider({
   range: 'min',
   min: 0.5,
-  max: 40,
+  max: 20,
   value: 10,
   animate: true,
   slide: function(event, ui){
