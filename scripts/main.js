@@ -1,29 +1,93 @@
 // everything is happening inside the AudioContext Interface
 // Controls creation of AudioNodes and execution of Audio Processing
 
+
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 let audioContext = new AudioContext();
-let source = null,
-    mixNode = null,
-    volumeNode = null,
-    tremoloNode = null;
+let streamSource = null,
+    mixNode = audioContext.createGain(),
+    volumeNode = audioContext.createGain(),
+    tremoloNode = null,
+    sampleNode = audioContext.createGain();
 let volumeAnalyser = audioContext.createAnalyser();
 let drawVisual;
+volumeNode.gain.value = 0;
 
-// Checks for input. If there is, start the stream
+let url1 = 'https://s3.amazonaws.com/webfx/sample1.mp3';
+let url2 = 'https://s3.amazonaws.com/webfx/sample2.mp3';
+let url3 = 'https://s3.amazonaws.com/webfx/sample3.mp3';
 
-navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
-navigator.getUserMedia({audio: true}, gotStream, didntGetStream);
+let audio1Buffer;
+let audio2Buffer;
+let audio3Buffer;
 
-// Creates media stream
+window.fetch('https://s3.amazonaws.com/webfx/sample1.mp3')
+	.then(response => response.arrayBuffer())
+	.then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+	.then(audioBuffer => { audio1Buffer = audioBuffer; });
+
+window.fetch('https://s3.amazonaws.com/webfx/sample2.mp3')
+	.then(response => response.arrayBuffer())
+	.then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+	.then(audioBuffer => { audio2Buffer = audioBuffer; });
+
+window.fetch('https://s3.amazonaws.com/webfx/sample3.mp3')
+	.then(response => response.arrayBuffer())
+	.then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+	.then(audioBuffer => { audio3Buffer = audioBuffer; });
+
+
+const play1Button = document.querySelector('#play1');
+play1Button.onclick = () => handleClick(play1Button, audio1Buffer);
+const play2Button = document.querySelector('#play2');
+play2Button.onclick = () => handleClick(play2Button, audio2Buffer);
+const play3Button = document.querySelector('#play3');
+play3Button.onclick = () => handleClick(play3Button, audio3Buffer);
+
+let sample;
+
+function handleClick(button, audioBuffer) {
+  if (button.children[0].className.includes('fa-play')){
+    if (sample){
+      sample.disconnect(sampleNode);
+      let array = Array.from(document.querySelectorAll('.sample-item'));
+      array.forEach((item) => {
+        item.children[0].className = 'fa fa-play';
+      });
+    }
+    button.children[0].className = 'fa fa-pause';
+    sample = audioContext.createBufferSource();
+    sample.connect(sampleNode);
+    sample.buffer = audioBuffer;
+    sample.loop = true;
+    sample.start();
+  } else if (button.children[0].className.includes('fa-pause')){
+    button.children[0].className = 'fa fa-play';
+    sample.stop();
+    }
+	}
+
+
 function gotStream(stream){
-  source = audioContext.createMediaStreamSource(stream);
+  streamSource = audioContext.createMediaStreamSource(stream);
   console.log('Hooray, audio is connected!');
 }
+// Checks for input. If there is, start the stream
 
 function didntGetStream(){
-  alert('Audio Did not Connect');
+  console.log('No stream :(');
 }
+
+function initAudio(){
+  navigator.getUserMedia = navigator.getUserMedia
+  || navigator.webkitGetUserMedia;
+  navigator.getUserMedia({audio: true}, gotStream, didntGetStream);
+}
+
+window.addEventListener('load', initAudio );
+
+
+// Creates media stream
 
 const onOff = document.querySelector('#on-off');
 const audioOn = document.querySelector('.audio-on');
@@ -32,15 +96,16 @@ onOff.onclick = startStopAudio;
 
 // Handles starting / stopping audio.
 function startStopAudio(){
-  if (volumeNode === null || volumeNode.gain.value === 0) {
+  if (onOff.className ==='audio-off') {
     onOff.className = 'audio-on';
-    mixNode = audioContext.createGain();
-    mixNode.gain.value = 1;
-    volumeNode = audioContext.createGain();
-    volumeNode.gain.value = .5;
-    source.connect(mixNode);
-    mixNode.connect(volumeNode);
     volumeNode.connect(volumeAnalyser);
+    mixNode.connect(volumeNode);
+    mixNode.gain.value = 1;
+    volumeNode.gain.value = .5;
+    if (streamSource){
+      streamSource.connect(mixNode);
+    }
+    sampleNode.connect(mixNode);
     volumeAnalyser.connect(audioContext.destination);
     onOff.innerHTML='ON';
     visualize();
@@ -49,7 +114,6 @@ function startStopAudio(){
     volumeNode.disconnect(volumeAnalyser);
     volumeNode.gain.value = 0;
     onOff.innerHTML='OFF';
-    volumeNode = null;
   }
 }
 
@@ -129,7 +193,7 @@ let bypassNode = audioContext.createGain();
 bypassNode.gain.value = 0.5;
 
 function handleDelay(){
-  if (delayOnOff.className === 'delay-off' && source){
+  if (delayOnOff.className === 'delay-off'){
     delayOnOff.className = 'delay-on';
     delayOnOff.innerHTML = 'ON';
     createDelay();
@@ -142,7 +206,10 @@ function handleDelay(){
 }
 
 function createDelay(){
-  source.connect(delayEffect);
+  sampleNode.connect(delayEffect);
+  if (streamSource){
+    streamSource.connect(delayEffect);
+  }
   delayEffect.connect(feedback);
   feedback.connect(delayEffect);
   delayEffect.connect(filter);
@@ -220,7 +287,7 @@ tremoloNode = audioContext.createGain();
 tremoloNode.gain.value = 1;
 
 function handleTremolo(){
-  if (tremoloOnOff.className === 'tremolo-off' && source){
+  if (tremoloOnOff.className === 'tremolo-off' && streamSource){
     tremoloOnOff.className = 'tremolo-on';
     tremoloOnOff.innerHTML = 'ON';
     createTremolo();
