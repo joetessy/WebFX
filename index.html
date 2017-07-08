@@ -3,6 +3,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> </title>
+    <link rel="icon"
+      type="image/png"
+      src="./docs/favicon.png">
     <script src="https://use.fontawesome.com/851d5e5f47.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
@@ -16,32 +19,69 @@
       <a target='_blank' href='http://www.github.com/joetessy/WebFX'>
         <i class="devicon-github-plain"></i>
       </a>
-      <h2> WARNING </h2>
-      <p>If using a microphone plug in headphones to avoid a feedback loop</p>
-
-      <h2> Instructions <h3>
-      <p> Turn on audio, then trigger samples - Enjoy! <p>
-
-      <div class='samples'>
-        <li>
-          Sample 1: <div class='sample-item' id='play1'>
+      <h2> INSTRUCTIONS <h3>
+      <p>Microphone</p>
+        <div class='instructions'>
+          <ul>
+            <li>
+              Plug in headphones
+            </li>
+            <li>
+              Select 'Input On'
+            </li>
+            <li>
+              Turn audio on in volume controls
+            </li>
+          </ul>
+        </div>
+      <p>Samples</p>
+      <div class='instructions'>
+        <ul>
+          <li>
+            Turn on audio in volume Controls
+          </li>
+          <li>
+            Trigger samples by clicking play button
+          </li>
+        </ul>
+      </div>
+      <div class='user-controls'>
+        <div class='select-input'>
+          <li>
+            <input type="radio"
+            name="input"
+            value="off"
+            onclick='initAudio()'> <h3>Input On</h3>
+          </li>
+          <li>
+            <input type="radio" checked name="input" value="on"
+              onclick='cancelAudio()'> <h3>Input Off</h3><br>
+          </li>
+        </div>
+        <div class='samples'>
+          <li>
+            Sample 1: <div class='sample-item' id='play1'>
+              <i class="fa fa-play"></i>
+            </div>
+          </li>
+          <li>
+          Sample 2: <div class='sample-item' id='play2'>
             <i class="fa fa-play"></i>
           </div>
-        </li>
-        <li>
-        Sample 2: <div class='sample-item' id='play2'>
-          <i class="fa fa-play"></i>
+          </li>
+          <li>
+          Sample 3: <div class='sample-item' id='play3'>
+            <i class="fa fa-play"></i>
+          </div>
+          </li>
         </div>
-        </li>
-        <li>
-        Sample 3: <div class='sample-item' id='play3'>
-          <i class="fa fa-play"></i>
         </div>
-        </li>
-      </div>
-
-
-
+      <a target='_blank'
+        href='https://www.joetessy.life'>
+        <div class=site-link>
+          <h2> by Joe Tessy</h2>
+        </div>
+      </a>
     </div>
     <div class=effects>
       <div class='volume-effect'>
@@ -73,7 +113,6 @@
               <h3> Length </h3>
               <div id='delay-intensity'></div>
             </div>
-            </div>
             <div class='delay-bypass-slider-container'>
               <h3> Level </h3>
               <div id='delay-bypass'></div>
@@ -81,6 +120,7 @@
             <div class='delay-filter-slider-container'>
               <h3> Filter </h3>
               <div id='delay-filter'></div>
+            </div>
           </div>
         </div>
       </div>

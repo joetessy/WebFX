@@ -70,6 +70,7 @@ function handleClick(button, audioBuffer) {
 
 function gotStream(stream){
   streamSource = audioContext.createMediaStreamSource(stream);
+  streamSource.connect(mixNode);
   console.log('Hooray, audio is connected!');
 }
 // Checks for input. If there is, start the stream
@@ -84,7 +85,11 @@ function initAudio(){
   navigator.getUserMedia({audio: true}, gotStream, didntGetStream);
 }
 
-window.addEventListener('load', initAudio );
+function cancelAudio(){
+  streamSource.disconnect(mixNode);
+
+}
+
 
 
 // Creates media stream
@@ -102,9 +107,9 @@ function startStopAudio(){
     mixNode.connect(volumeNode);
     mixNode.gain.value = 1;
     volumeNode.gain.value = .5;
-    if (streamSource){
-      streamSource.connect(mixNode);
-    }
+    // if (streamSource){
+    //   streamSource.connect(mixNode);
+    // }
     sampleNode.connect(mixNode);
     volumeAnalyser.connect(audioContext.destination);
     onOff.innerHTML='ON';
@@ -287,7 +292,7 @@ tremoloNode = audioContext.createGain();
 tremoloNode.gain.value = 1;
 
 function handleTremolo(){
-  if (tremoloOnOff.className === 'tremolo-off' && streamSource){
+  if (tremoloOnOff.className === 'tremolo-off'){
     tremoloOnOff.className = 'tremolo-on';
     tremoloOnOff.innerHTML = 'ON';
     createTremolo();
@@ -295,6 +300,8 @@ function handleTremolo(){
   } else {
     tremoloOnOff.className = 'tremolo-off';
     tremoloOnOff.innerHTML = 'OFF';
+    mixNode.disconnect(tremoloNode);
+    mixNode.connect(volumeNode);
 
   }
 }
