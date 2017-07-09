@@ -136,14 +136,13 @@ function handleRecord(){
   }
 }
 
-let recIndex = 0;
 function saveAudio(){
   rec.exportWAV(doneEncoding);
 }
 
 function doneEncoding( blob ) {
-    Recorder.forceDownload( blob, "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
-    recIndex++;
+  console.log(blob);
+    Recorder.forceDownload( blob, "myRecording.wav" );
 }
 // Volume
 
