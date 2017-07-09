@@ -27,6 +27,9 @@ h2 {
   font-size: 13px;
 }
 
+.logo {
+  margin-top: 20px;
+}
 .info a {
   color: white;
   text-decoration: none;
@@ -224,6 +227,10 @@ body {
   padding: 10px 15px;
   box-shadow: -2px 3px 11px black;
   margin: 20px auto;
+}
+
+.volume-effect{
+  margin: 0 20px 20px 20px;
 }
 
 .volume-on-container{
