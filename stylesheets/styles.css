@@ -17,6 +17,7 @@ h2 {
 }
 
 .instructions-container{
+  width: 260px;
   background-color: #4BB3FD;
   border-radius: 10px;
   border: 1px solid black;
@@ -76,10 +77,18 @@ header {
 }
 
 .user-controls{
+  width: 260px;
   display: flex;
   align-items: flex-start;
   margin: 20px 0;
-  width: 75%;
+  background-color: #4BB3FD;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 20px;
+  color: black;
+  box-shadow: -2px 3px 11px black;
+  font-size: 13px;
+  width:
 }
 
 input[type='radio']{
