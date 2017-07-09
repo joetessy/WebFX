@@ -16,6 +16,36 @@ h2 {
   font-size: 20px;
 }
 
+.instructions-container{
+  background-color: #4BB3FD;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 20px;
+  color: black;
+  box-shadow: -2px 3px 11px black;
+  font-size: 13px;
+}
+
+.record h2 {
+  color: white;
+  margin: 20px auto;
+}
+
+.record-off,
+.record-on{
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: 4px solid red;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.record-on{
+  background-color: red;
+  border: 4px solid red;
+}
+
 p {
   font-size: 16px;
   text-align: left;
@@ -48,7 +78,8 @@ header {
 .user-controls{
   display: flex;
   align-items: flex-start;
-  margin-top: 40px;
+  margin: 20px 0;
+  width: 75%;
 }
 
 input[type='radio']{
@@ -78,13 +109,35 @@ body {
 }
 
 .info {
+  padding: 0 10px;
   color: white;
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 300px;
   align-items: center;
 }
 
+.record {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.save {
+  height: 50px;
+  width: 50px;
+  background-color: #01FF70;
+  border-radius: 50%;
+  margin: 20px auto;
+  border: 4px solid  #01FF70;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hide {
+  display: none;
+}
 
 .site-link {
   color: white;
@@ -93,7 +146,6 @@ body {
   box-shadow: -1px 1px 2px black;
   border-radius: 8px;
   width: 132px;
-  margin: 40px auto;
   transition: color, 0.3s;
   background-color: #027BCE;
   transition: background-color .3s;
@@ -121,7 +173,7 @@ body {
 }
 
 .effects {
-  width: 60%;
+  width: 420px;
 }
 
 .volume-effect, .delay-effect, .tremolo-effect {
@@ -131,7 +183,7 @@ body {
   border: 1px solid black;
   padding: 10px 15px;
   box-shadow: -2px 3px 11px black;
-  margin: 20px;
+  margin: 20px auto;
 }
 
 .volume-on-container{

@@ -8,6 +8,7 @@ let streamSource = null,
     mixNode = audioContext.createGain(),
     volumeNode = audioContext.createGain(),
     tremoloNode = null,
+    audioRecorder = null,
     sampleNode = audioContext.createGain();
 let volumeAnalyser = audioContext.createAnalyser();
 let drawVisual;
@@ -90,8 +91,6 @@ function cancelAudio(){
 
 }
 
-
-
 // Creates media stream
 
 const onOff = document.querySelector('#on-off');
@@ -122,6 +121,30 @@ function startStopAudio(){
   }
 }
 
+const recorder = document.querySelector('.recorder');
+var rec = new Recorder(volumeNode);
+
+function handleRecord(){
+  if (recorder.className.includes('record-off')){
+    recorder.className = 'recorder record-on';
+    rec.clear();
+    rec.record();
+  } else {
+    document.querySelector('.save').className = 'save';
+    recorder.className = 'recorder record-off';
+    rec.stop();
+  }
+}
+
+let recIndex = 0;
+function saveAudio(){
+  rec.exportWAV(doneEncoding);
+}
+
+function doneEncoding( blob ) {
+    Recorder.forceDownload( blob, "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
+    recIndex++;
+}
 // Volume
 
 function setVolume(volume){

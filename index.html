@@ -7,6 +7,7 @@
       type="image/png"
       src="./docs/favicon.png">
     <script src="https://use.fontawesome.com/851d5e5f47.js"></script>
+    <script src="./scripts/recorderjs/recorder.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
     <link rel="stylesheet" href="stylesheets/styles.css">
@@ -19,31 +20,33 @@
       <a target='_blank' href='http://www.github.com/joetessy/WebFX'>
         <i class="devicon-github-plain"></i>
       </a>
-      <h2> INSTRUCTIONS <h3>
-      <p>Microphone</p>
+      <div class='instructions-container'>
+        <h2> INSTRUCTIONS </h2>
+        <p>Microphone</p>
+          <div class='instructions'>
+            <ul>
+              <li>
+                Plug in headphones
+              </li>
+              <li>
+                Select 'Input On'
+              </li>
+              <li>
+                Turn audio on in volume controls
+              </li>
+            </ul>
+          </div>
+        <p>Samples</p>
         <div class='instructions'>
           <ul>
             <li>
-              Plug in headphones
+              Turn on audio in volume Controls
             </li>
             <li>
-              Select 'Input On'
-            </li>
-            <li>
-              Turn audio on in volume controls
+              Trigger samples by clicking play button
             </li>
           </ul>
         </div>
-      <p>Samples</p>
-      <div class='instructions'>
-        <ul>
-          <li>
-            Turn on audio in volume Controls
-          </li>
-          <li>
-            Trigger samples by clicking play button
-          </li>
-        </ul>
       </div>
       <div class='user-controls'>
         <div class='select-input'>
@@ -60,17 +63,17 @@
         </div>
         <div class='samples'>
           <li>
-            Sample 1: <div class='sample-item' id='play1'>
+            <h3>Sample 1: </h3><div class='sample-item' id='play1'>
               <i class="fa fa-play"></i>
             </div>
           </li>
           <li>
-          Sample 2: <div class='sample-item' id='play2'>
+          <h3>Sample 2: </h3><div class='sample-item' id='play2'>
             <i class="fa fa-play"></i>
           </div>
           </li>
           <li>
-          Sample 3: <div class='sample-item' id='play3'>
+          <h3>Sample 3: </h3><div class='sample-item' id='play3'>
             <i class="fa fa-play"></i>
           </div>
           </li>
@@ -143,6 +146,13 @@
         </div>
       </div>
     </div>
+    <div class='record'>
+      <h2>Record</h2>
+      <div class='record-off recorder' onclick='handleRecord()'></div>
+      <div class='save hide' onclick='saveAudio()'>
+        SAVE
+      </div>
+    <div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js" charset="utf-8"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
