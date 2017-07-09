@@ -25,25 +25,25 @@ h2 {
   color: black;
   box-shadow: -2px 3px 11px black;
   font-size: 13px;
+  margin: 10px 0;
 }
 
 .social-links{
   width: 90px;
   display: flex;
   justify-content: space-between;
+  margin: 10px 0;
 }
 
 .logo {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 .info a {
   color: white;
   text-decoration: none;
+  height: 40px;
 }
 
-.social-links{
-  margin: 20px;
-}
 .github-link {
 }
 
@@ -91,6 +91,7 @@ header {
 
 .instructions li {
   padding: 3px 0;
+  font-size: 12px;
 }
 
 .select-input li,
@@ -141,7 +142,6 @@ body {
 }
 
 .content {
-  padding-top: 20px;
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -149,15 +149,16 @@ body {
 }
 
 .info {
-  padding: 0 10px;
   color: white;
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 40%;
   align-items: center;
+  height: 100%;
 }
 
 .user-options {
+  width: 20%;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -229,22 +230,23 @@ body {
 }
 
 .effects {
-  width: 420px;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 30px 0;
 }
 
-.volume-effect, .delay-effect, .tremolo-effect {
+.effect {
   background-color: #4BB3FD;
   width: 350px;
   border-radius: 10px;
   border: 1px solid black;
   padding: 10px 15px;
   box-shadow: -2px 3px 11px black;
-  margin: 20px auto;
 }
 
-.volume-effect{
-  margin: 0 20px 20px 20px;
-}
 
 .volume-on-container{
   width: 33.33%
@@ -253,7 +255,9 @@ body {
 .volume-controls{
   align-items: center;
   display: flex;
-  width: 100%;
+  width: 90%;
+  margin: auto;
+  margin: 10px auto;
   justify-content: space-around;
 }
 
@@ -293,14 +297,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-
-.waveform-container{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 10px;
 }
 
 #volume {
@@ -349,7 +345,7 @@ body {
   background-color: black;
 }
 
-.volume-slider-container, .waveform-container, .volume-on-container{
+.volume-module-item{
   width: 33.33%;
   display: flex;
   align-items: center;
@@ -456,7 +452,7 @@ body {
 }
 
 .fa-play{
-  padding-left: 2px;
+  padding-left: 2.5px;
 }
 
 .fa-pause{
@@ -465,6 +461,11 @@ body {
 input{
   font-size: 30px;
   margin: 5px;
+  cursor: pointer;
+}
+
+.sample-item{
+  cursor: pointer;
 }
 
 #save {
@@ -478,4 +479,12 @@ input{
 
 #save[download] .save {
   opacity: 1;
+}
+
+p {
+  margin: 5px 0;
+  font-size: 15px;
+}
+.instructions ul {
+  margin: 0;
 }

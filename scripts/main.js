@@ -1,7 +1,3 @@
-// everything is happening inside the AudioContext Interface
-// Controls creation of AudioNodes and execution of Audio Processing
-
-
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 let audioContext = new AudioContext();
 let streamSource = null,
@@ -46,7 +42,6 @@ const play3Button = document.querySelector('#play3');
 play3Button.onclick = () => handleClick(play3Button, audio3Buffer);
 
 let sample;
-
 function handleClick(button, audioBuffer) {
   if (button.children[0].className.includes('fa-play')){
     if (sample){
@@ -65,15 +60,13 @@ function handleClick(button, audioBuffer) {
   } else if (button.children[0].className.includes('fa-pause')){
     button.children[0].className = 'fa fa-play';
     sample.stop();
-    }
-	}
-
+  }
+}
 
 function gotStream(stream){
   streamSource = audioContext.createMediaStreamSource(stream);
   streamSource.connect(mixNode);
 }
-// Checks for input. If there is, start the stream
 
 function didntGetStream(){
   console.log('No stream :(');
@@ -87,17 +80,12 @@ function initAudio(){
 
 function cancelAudio(){
   streamSource.disconnect(mixNode);
-
+  streamSource.disconnect(delayEffect);
 }
 
-// Creates media stream
-
 const onOff = document.querySelector('#on-off');
-const audioOn = document.querySelector('.audio-on');
-const audioOff = document.querySelector('.audio-off');
 onOff.onclick = startStopAudio;
 
-// Handles starting / stopping audio.
 function startStopAudio(){
   if (onOff.className ==='audio-off') {
     onOff.className = 'audio-on';
@@ -105,9 +93,6 @@ function startStopAudio(){
     mixNode.connect(volumeNode);
     mixNode.gain.value = 1;
     volumeNode.gain.value = .5;
-    // if (streamSource){
-    //   streamSource.connect(mixNode);
-    // }
     sampleNode.connect(mixNode);
     volumeAnalyser.connect(audioContext.destination);
     onOff.innerHTML='ON';
@@ -136,11 +121,11 @@ function handleRecord(){
 }
 
 function doneEncoding( blob ) {
-    Recorder.setupDownload( blob, "myRecording.wav" );
+  Recorder.setupDownload( blob, "myRecording.wav" );
 }
 
 function gotBuffers( buffers ) {
-    rec.exportWAV( doneEncoding );
+  rec.exportWAV( doneEncoding );
 }
 // Volume
 
@@ -160,8 +145,6 @@ $('#volume').slider({
     setVolume((ui.value) / 100);
   }
 });
-
-// Oscilloscope
 
 let canvas = document.querySelector('.waveform');
 let canvasCtx = canvas.getContext('2d');
@@ -201,8 +184,6 @@ function visualize(){
   }
   draw();
 }
-
-// DELAY
 
 const delayOnOff = document.querySelector('#delay-on-off');
 delayOnOff.onclick = handleDelay;
