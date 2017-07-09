@@ -416,3 +416,7 @@ input{
   font-size: 30px;
   margin: 5px;
 }
+
+.save { opacity: 0.25;}
+
+#save[download] .save {opacity: 1;}

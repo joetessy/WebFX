@@ -26,6 +26,7 @@ DEALINGS IN THE SOFTWARE.
     var bufferLen = config.bufferLen || 4096;
     this.context = source.context;
     this.node = this.context.createScriptProcessor(bufferLen, 2, 2);
+
     var worker = new Worker(config.workerPath || WORKER_PATH);
     worker.postMessage({
       command: 'init',
@@ -98,17 +99,15 @@ DEALINGS IN THE SOFTWARE.
     }
 
     source.connect(this.node);
-    this.node.connect(this.context.destination);    //this should not be necessary
+    this.node.connect(this.context.destination);   // if the script node is not connected to an output the "onaudioprocess" event is not triggered in chrome.
   };
 
-  Recorder.forceDownload = function(blob, filename){
+  Recorder.setupDownload = function(blob, filename){
+    console.log(blob);
     var url = (window.URL || window.webkitURL).createObjectURL(blob);
-    var link = window.document.createElement('a');
-    link.href = url.slice(5);
-	  link.className = 'download';
-	  console.log(link);
+    var link = document.getElementById("save");
+    link.href = url;
     link.download = filename || 'output.wav';
-    $('.download').click();
   }
 
   window.Recorder = Recorder;

@@ -130,19 +130,18 @@ function handleRecord(){
     rec.clear();
     rec.record();
   } else {
-    document.querySelector('.save').className = 'save';
     recorder.className = 'recorder record-off';
     rec.stop();
+    rec.getBuffers( gotBuffers );
   }
 }
 
-function saveAudio(){
-  rec.exportWAV(doneEncoding);
+function doneEncoding( blob ) {
+    Recorder.setupDownload( blob, "myRecording.wav" );
 }
 
-function doneEncoding( blob ) {
-  console.log(blob);
-    Recorder.forceDownload( blob, "myRecording.wav" );
+function gotBuffers( buffers ) {
+    rec.exportWAV( doneEncoding );
 }
 // Volume
 
