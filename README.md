@@ -69,6 +69,13 @@ For Delay to work, both the ```streamSource``` and ```sampleNode``` are connecte
 
 * Using canvas, bufferLength, and the time-domain data, we can draw segments of the wave for each point in the buffer at a specific height based on the data point value from the array. The ```a draw``` method is called recursively allowing us to see a visual representation of the audio signal in the form of an oscilloscope
 
+## WebFX Node Flowchart
+
+This flowchart outlines the relationships between the nodes described above. Next to each node is a comment stating the Web Audio Node object type for each node and how the user can control it.
+
+![flowchart](./docs/flowchart.png)
+
+
 
 ## Implementation Timeline
 
