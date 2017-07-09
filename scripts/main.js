@@ -72,7 +72,6 @@ function handleClick(button, audioBuffer) {
 function gotStream(stream){
   streamSource = audioContext.createMediaStreamSource(stream);
   streamSource.connect(mixNode);
-  console.log('Hooray, audio is connected!');
 }
 // Checks for input. If there is, start the stream
 
@@ -339,7 +338,6 @@ function createTremolo(){
 
 var tremoloInterval;
 function setTremolo(minGain, speed = 20){
-  console.log(minGain, speed);
   if (tremoloInterval) clearInterval(tremoloInterval);
   let maxGain = 1;
   let val = 0;

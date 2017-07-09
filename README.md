@@ -1,23 +1,19 @@
 # WebFX
 
-## MVP
-
 [WebFX](https://www.joetessy.life/WebFX "WebFX") is an interactive audio-effect app that functions as a delay & tremolo effect pedal for the guitar, microphone, or any other audio input. Users have the ability to digital alter a live analog signal or some provided samples with user controls. Finally, users have the ability to record and download the audio stream.
 
 ![alt text](./docs/webfx.png)
 
-
-
 ## Technologies
 
-WebFX solely uses Google's WebAudio API for handling with audio input and manipulation. Web Audio gives WebFX the following functionality:
+WebFX uses Google's Web Audio API for handling audio input and manipulation. Web Audio gives WebFX the following functionality:
 - [ ] Audio Input
 - [ ] ON/OFF & Volume Controls
 - [ ] Delay effect (speed, length, level, filter)
 - [ ] Tremolo effect (speed, depth)
 - [ ] Oscilloscope that visualizes live audio signals.
 
-I also used the [Recorderjs](https://github.com/mattdiamond/Recorderjs "Recorder.js") library to add bonus functionality allowing users to record their audio streams. Since this library isn't currently being maintained, I had to make some edits to methods have since been deprecated.
+I also used the [Recorderjs](https://github.com/mattdiamond/Recorderjs "Recorder.js") library to add bonus functionality allowing users to record their audio streams. Since this library isn't currently being maintained, I had to make some edits to methods that have been deprecated.
 
 ## How It Works
 
@@ -74,8 +70,6 @@ For Delay to work, both the ```streamSource``` and ```sampleNode``` are connecte
 This flowchart outlines the relationships between the nodes described above. Next to each node is a comment stating the Web Audio Node object type for each node and how the user can control it.
 
 ![flowchart](./docs/flowchart.png)
-
-
 
 ## Implementation Timeline
 
