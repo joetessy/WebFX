@@ -27,6 +27,12 @@ h2 {
   font-size: 13px;
 }
 
+.social-links{
+  width: 90px;
+  display: flex;
+  justify-content: space-between;
+}
+
 .logo {
   margin-top: 20px;
 }
@@ -34,8 +40,15 @@ h2 {
   color: white;
   text-decoration: none;
 }
+
+.social-links{
+  margin: 20px;
+}
 .github-link {
-  margin: 20px 0;
+}
+
+.fa-linkedin{
+  font-size: 4em;
 }
 
 .record h2 {
