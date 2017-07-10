@@ -213,7 +213,7 @@ function handleDelay(){
 
 function createDelay(){
   sampleNode.connect(delayEffect);
-  if (streamSource){
+  if (streamSource && document.querySelectorAll('input')[1].checked){
     streamSource.connect(delayEffect);
   }
   delayEffect.connect(feedback);
