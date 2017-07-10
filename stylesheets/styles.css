@@ -448,7 +448,6 @@ body {
 .fa-pause , .fa-play{
   color: black;
   font-size: 1em;
-  z-index: 10;
 }
 
 .fa-play{

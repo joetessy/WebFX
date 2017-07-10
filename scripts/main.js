@@ -66,6 +66,9 @@ function handleClick(button, audioBuffer) {
 function gotStream(stream){
   streamSource = audioContext.createMediaStreamSource(stream);
   streamSource.connect(mixNode);
+  if (delayOnOff.className === 'delay-on'){
+    createDelay();
+  }
 }
 
 function didntGetStream(){
@@ -79,8 +82,12 @@ function initAudio(){
 }
 
 function cancelAudio(){
-  streamSource.disconnect(mixNode);
-  streamSource.disconnect(delayEffect);
+  if (streamSource && onOff.className ==='audio-on'){
+    streamSource.disconnect(mixNode);
+    if (delayOnOff.className === 'delay-on'){
+      streamSource.disconnect(delayEffect);
+    }
+  }
 }
 
 const onOff = document.querySelector('#on-off');
@@ -203,6 +210,9 @@ function handleDelay(){
     delayOnOff.className = 'delay-on';
     delayOnOff.innerHTML = 'ON';
     createDelay();
+    if (document.querySelectorAll('input')[1].checked && streamSource){
+      streamSource.disconnect(delayEffect);
+    }
 
   } else {
     delayOnOff.className = 'delay-off';
@@ -213,7 +223,7 @@ function handleDelay(){
 
 function createDelay(){
   sampleNode.connect(delayEffect);
-  if (streamSource && document.querySelectorAll('input')[1].checked){
+  if (streamSource){
     streamSource.connect(delayEffect);
   }
   delayEffect.connect(feedback);
