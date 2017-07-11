@@ -77,7 +77,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__oscilloscope_effect_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__audio_handler_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__page_handler_js__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__tremolo_effect_js__ = __webpack_require__(6);
 
@@ -134,7 +133,9 @@ const myPageHandler = new __WEBPACK_IMPORTED_MODULE_4__page_handler_js__["a" /* 
 const myAudio = new __WEBPACK_IMPORTED_MODULE_2__audio_handler_js__["a" /* default */]();
 /* harmony export (immutable) */ __webpack_exports__["myAudio"] = myAudio;
 
-// export const myRecorder = new AudioRecorder();
+const myRecorder = new __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__["a" /* default */]();
+/* harmony export (immutable) */ __webpack_exports__["myRecorder"] = myRecorder;
+
 
 volumeNode.gain.value = 0;
 delayEffect.delayTime.value = 0.25;
@@ -324,36 +325,38 @@ function AudioHandler(){
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// import { volumeNode } from './main.js';
-//
-// function AudioRecorder(){
-//   const recorder = document.querySelector('.recorder');
-//   var rec = new Recorder(volumeNode);
-//
-//     this.handleRecord = function(){
-//       if (recorder.className.includes('record-off')){
-//         recorder.className = 'recorder record-on';
-//         rec.clear();
-//         rec.record();
-//       } else {
-//         recorder.className = 'recorder record-off';
-//         rec.stop();
-//         rec.getBuffers( this.gotBuffers );
-//       }
-//     };
-//
-//     function doneEncoding( blob ) {
-//       Recorder.setupDownload( blob, "myRecording.wav" );
-//     }
-//
-//     this.gotBuffers = function ( buffers ) {
-//       rec.exportWAV(doneEncoding );
-//     };
-// }
-//
-// export default AudioRecorder;
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_js__ = __webpack_require__(0);
+
+
+function AudioRecorder(){
+  const recorder = document.querySelector('.recorder');
+  var rec = new Recorder(__WEBPACK_IMPORTED_MODULE_0__main_js__["volumeNode"]);
+
+    this.handleRecord = function(){
+      if (recorder.className.includes('record-off')){
+        recorder.className = 'recorder record-on';
+        rec.clear();
+        rec.record();
+      } else {
+        recorder.className = 'recorder record-off';
+        rec.stop();
+        rec.getBuffers( this.gotBuffers );
+      }
+    };
+
+    function doneEncoding( blob ) {
+      Recorder.setupDownload( blob, "myRecording.wav" );
+    }
+
+    this.gotBuffers = function ( buffers ) {
+      rec.exportWAV(doneEncoding );
+    };
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (AudioRecorder);
 
 
 /***/ }),
