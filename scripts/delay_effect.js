@@ -1,5 +1,5 @@
-import {sampleNode, delayEffect, feedBack, filter, bypassNode,
-mixNode, feedback, delayOnOff } from './main.js';
+import {sampleNode, delayEffect, feedBack, filter,
+bypassNode, mixNode, feedback, delayOnOff } from './main.js';
 
 function Delay(){
   this.createDelay = function(streamSource){

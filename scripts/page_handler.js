@@ -1,6 +1,6 @@
-import {sampleNode, audioContext, volumeAnalyser, onOff, volumeNode,
-  mixNode, myOscilloscope, streamSource, delayOnOff, myDelay, myAudio,
-bypassNode, tremoloOnOff, tremoloNode, myTremolo, delayEffect} from './main.js';
+import { sampleNode, audioContext, volumeAnalyser, onOff, volumeNode,mixNode,
+myOscilloscope, streamSource, delayOnOff, myDelay, myAudio, bypassNode,
+tremoloOnOff, tremoloNode, myTremolo, delayEffect } from './main.js';
 
 function PageHandler(){
   let sample;
