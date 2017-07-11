@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,250 +71,36 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "streamSource", function() { return streamSource; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__delay_effect_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__oscilloscope_effect_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__audio_handler_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__page_handler_js__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__tremolo_effect_js__ = __webpack_require__(6);
-
-
-
-
-
-
-
-window.AudioContext = window.AudioContext || window.webkitAudioContext;
-const audioContext = new AudioContext();
-/* harmony export (immutable) */ __webpack_exports__["audioContext"] = audioContext;
-
-const mixNode = audioContext.createGain();
-/* harmony export (immutable) */ __webpack_exports__["mixNode"] = mixNode;
-
-const volumeNode = audioContext.createGain();
-/* harmony export (immutable) */ __webpack_exports__["volumeNode"] = volumeNode;
-
-const sampleNode = audioContext.createGain();
-/* harmony export (immutable) */ __webpack_exports__["sampleNode"] = sampleNode;
-
-const volumeAnalyser = audioContext.createAnalyser();
-/* harmony export (immutable) */ __webpack_exports__["volumeAnalyser"] = volumeAnalyser;
-
-const tremoloNode = audioContext.createGain();
-/* harmony export (immutable) */ __webpack_exports__["tremoloNode"] = tremoloNode;
-
-const delayEffect = audioContext.createDelay(0.5);
-/* harmony export (immutable) */ __webpack_exports__["delayEffect"] = delayEffect;
-
-const feedback = audioContext.createGain();
-/* harmony export (immutable) */ __webpack_exports__["feedback"] = feedback;
-
-const bypassNode = audioContext.createGain();
-/* harmony export (immutable) */ __webpack_exports__["bypassNode"] = bypassNode;
-
-const filter = audioContext.createBiquadFilter();
-/* harmony export (immutable) */ __webpack_exports__["filter"] = filter;
-
-
-const myDelay = new __WEBPACK_IMPORTED_MODULE_0__delay_effect_js__["a" /* default */]();
-/* harmony export (immutable) */ __webpack_exports__["myDelay"] = myDelay;
-
-const myOscilloscope = new __WEBPACK_IMPORTED_MODULE_1__oscilloscope_effect_js__["a" /* default */]();
-/* harmony export (immutable) */ __webpack_exports__["myOscilloscope"] = myOscilloscope;
-
-const myTremolo = new __WEBPACK_IMPORTED_MODULE_5__tremolo_effect_js__["a" /* default */]();
-/* harmony export (immutable) */ __webpack_exports__["myTremolo"] = myTremolo;
-
-const myPageHandler = new __WEBPACK_IMPORTED_MODULE_4__page_handler_js__["a" /* default */]();
-/* harmony export (immutable) */ __webpack_exports__["myPageHandler"] = myPageHandler;
-
-const myAudio = new __WEBPACK_IMPORTED_MODULE_2__audio_handler_js__["a" /* default */]();
-/* harmony export (immutable) */ __webpack_exports__["myAudio"] = myAudio;
-
-const myRecorder = new __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__["a" /* default */]();
-/* harmony export (immutable) */ __webpack_exports__["myRecorder"] = myRecorder;
-
-
-volumeNode.gain.value = 0;
-delayEffect.delayTime.value = 0.25;
-feedback.gain.value = 0;
-filter.frequency.value = 10000;
-bypassNode.gain.value = 0.5;
-tremoloNode.gain.value = 1;
-
-var streamSource = null;
-let audioRecorder = null;
-let url1 = 'https://s3.amazonaws.com/webfx/sample1.mp3';
-let url2 = 'https://s3.amazonaws.com/webfx/sample2.mp3';
-let url3 = 'https://s3.amazonaws.com/webfx/sample3.mp3';
-let audio1Buffer;
-let audio2Buffer;
-let audio3Buffer;
-window.fetch('https://s3.amazonaws.com/webfx/sample1.mp3')
-.then(response => response.arrayBuffer())
-.then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-.then(audioBuffer => { audio1Buffer = audioBuffer; });
-
-window.fetch('https://s3.amazonaws.com/webfx/sample2.mp3')
-.then(response => response.arrayBuffer())
-.then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-.then(audioBuffer => { audio2Buffer = audioBuffer; });
-
-window.fetch('https://s3.amazonaws.com/webfx/sample3.mp3')
-.then(response => response.arrayBuffer())
-.then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-.then(audioBuffer => { audio3Buffer = audioBuffer; });
-
-const onOff = document.querySelector('#on-off');
-/* harmony export (immutable) */ __webpack_exports__["onOff"] = onOff;
-
-const delayOnOff = document.querySelector('#delay-on-off');
-/* harmony export (immutable) */ __webpack_exports__["delayOnOff"] = delayOnOff;
-
-const tremoloOnOff = document.querySelector('#tremolo-on-off');
-/* harmony export (immutable) */ __webpack_exports__["tremoloOnOff"] = tremoloOnOff;
-
-const play1Button = document.querySelector('#play1');
-const play2Button = document.querySelector('#play2');
-const play3Button = document.querySelector('#play3');
-
-
-onOff.onclick = myPageHandler.startStopAudio;
-delayOnOff.onclick = myPageHandler.handleDelay;
-tremoloOnOff.onclick = myPageHandler.handleTremolo;
-play1Button.onclick = () => myPageHandler.handleSamplePlay(play1Button, audio1Buffer);
-play2Button.onclick = () => myPageHandler.handleSamplePlay(play2Button, audio2Buffer);
-play3Button.onclick = () => myPageHandler.handleSamplePlay(play3Button, audio3Buffer);
-$('input')[0].onclick = () => myAudio.initAudio();
-$('input')[1].onclick = () => myAudio.cancelAudio();
-$('.recorder')[0].onclick = () => myRecorder.handleRecord();
-
-
-$('#volume').slider({
-  orientation: 'vertical',
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 50,
-  animate: true,
-  slide: function(event, ui){
-    if (volumeNode)
-    myAudio.setVolume((ui.value) / 100);
-  }
-});
-
-$('#delay-time').slider({
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 50,
-  animate: true,
-  slide: function(event, ui){
-    if (volumeNode)
-    myDelay.setDelayTime((ui.value) / 100 * .5);
-  }
-});
-
-$('#delay-intensity').slider({
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 0,
-  animate: true,
-  slide: function(event, ui){
-    if (volumeNode)
-    myDelay.setDelayIntensity((ui.value) / 100 * .8);
-  }
-});
-
-$('#delay-filter').slider({
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 100,
-  animate: true,
-  slide: function(event, ui){
-    if (volumeNode)
-    myDelay.setDelayFilter(ui.value * 100);
-  }
-});
-
-$('#delay-bypass').slider({
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 50,
-  animate: true,
-  slide: function(event, ui){
-    if (volumeNode)
-    myDelay.setDelayBypass(ui.value / 100);
-  }
-});
-
-$('#tremolo-depth').slider({
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 0,
-  animate: true,
-  slide: function(event, ui){
-    myTremolo.setTremolo((ui.value / 100), $('#tremolo-speed').slider('option', 'value'));
-  }
-});
-
-$('#tremolo-speed').slider({
-  range: 'min',
-  min: 0.5,
-  max: 20,
-  value: 10,
-  animate: true,
-  slide: function(event, ui){
-    myTremolo.setTremolo( ($('#tremolo-depth').slider('option', 'value') / 100), ui.value);
-  }
-});
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_js__ = __webpack_require__(0);
-
-
-let streamSource;
-function AudioHandler(){
+function AudioHandler(main, myDelay){
+  this.main = main;
+  this.myDelay = myDelay;
   this.initAudio = function(){
     navigator.getUserMedia = navigator.getUserMedia
     || navigator.webkitGetUserMedia;
-    navigator.getUserMedia({audio: true}, gotStream, didntGetStream);
+    navigator.getUserMedia({audio: true}, this.gotStream, didntGetStream);
   };
 
-  function gotStream(stream){
-    streamSource = __WEBPACK_IMPORTED_MODULE_0__main_js__["audioContext"].createMediaStreamSource(stream);
-    streamSource.connect(__WEBPACK_IMPORTED_MODULE_0__main_js__["mixNode"]);
-    __WEBPACK_IMPORTED_MODULE_0__main_js__["myDelay"].createDelay(streamSource);
-  }
-
-  function addDelay(){
-    __WEBPACK_IMPORTED_MODULE_0__main_js__["myDelay"].createDelay(streamSource);
-  }
+  let that = this;
+  this.gotStream = function(stream){
+    that.main.streamSource = that.main.audioContext.createMediaStreamSource(stream);
+    that.main.streamSource.connect(that.main.mixNode);
+    that.myDelay.createDelay(that.main.streamSource);
+    that.main.bypassNode.gain.value = 0.5;
+  };
 
   function didntGetStream(){
     console.log('No stream :(');
   }
 
   this.setVolume = function(volume){
-    __WEBPACK_IMPORTED_MODULE_0__main_js__["volumeNode"].gain.value = volume;
+    this.main.volumeNode.gain.value = volume;
   };
 
-  this.cancelAudio = function(){
-    if (streamSource && __WEBPACK_IMPORTED_MODULE_0__main_js__["onOff"].className ==='audio-on'){
-      streamSource.disconnect(__WEBPACK_IMPORTED_MODULE_0__main_js__["mixNode"]);
-      if (__WEBPACK_IMPORTED_MODULE_0__main_js__["delayOnOff"].className === 'delay-on'){
-        streamSource.disconnect(__WEBPACK_IMPORTED_MODULE_0__main_js__["delayEffect"]);
+  this.cancelAudio = function(onOff, delayOnOff){
+    if (that.main.streamSource && onOff.className ==='audio-on'){
+      that.main.streamSource.disconnect(this.main.mixNode);
+      if (delayOnOff.className === 'delay-on'){
+        that.main.bypassNode.gain.value = 0;
       }
     }
   };
@@ -324,16 +110,14 @@ function AudioHandler(){
 
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_js__ = __webpack_require__(0);
-
-
-function AudioRecorder(){
+function AudioRecorder(main){
+  this.main = main;
   const recorder = document.querySelector('.recorder');
-  var rec = new Recorder(__WEBPACK_IMPORTED_MODULE_0__main_js__["volumeNode"]);
+  var rec = new Recorder(this.main.volumeNode);
 
     this.handleRecord = function(){
       if (recorder.className.includes('record-off')){
@@ -360,43 +144,35 @@ function AudioRecorder(){
 
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_js__ = __webpack_require__(0);
-
-
-function Delay(){
+function Delay(main){
+  this.main = main;
   this.createDelay = function(streamSource){
-    __WEBPACK_IMPORTED_MODULE_0__main_js__["sampleNode"].connect(__WEBPACK_IMPORTED_MODULE_0__main_js__["delayEffect"]);
-    if (streamSource){
-      streamSource.connect(__WEBPACK_IMPORTED_MODULE_0__main_js__["delayEffect"]);
-    }
-    __WEBPACK_IMPORTED_MODULE_0__main_js__["delayEffect"].connect(__WEBPACK_IMPORTED_MODULE_0__main_js__["feedback"]);
-    __WEBPACK_IMPORTED_MODULE_0__main_js__["feedback"].connect(__WEBPACK_IMPORTED_MODULE_0__main_js__["delayEffect"]);
-    __WEBPACK_IMPORTED_MODULE_0__main_js__["delayEffect"].connect(__WEBPACK_IMPORTED_MODULE_0__main_js__["filter"]);
-    __WEBPACK_IMPORTED_MODULE_0__main_js__["filter"].connect(__WEBPACK_IMPORTED_MODULE_0__main_js__["bypassNode"]);
-    __WEBPACK_IMPORTED_MODULE_0__main_js__["bypassNode"].connect(__WEBPACK_IMPORTED_MODULE_0__main_js__["mixNode"]);
-    if (__WEBPACK_IMPORTED_MODULE_0__main_js__["delayOnOff"].className === 'delay-off'){
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["bypassNode"].gain.value = (0);
-    }
+    this.main.sampleNode.connect(this.main.delayEffect);
+    this.main.delayEffect.connect(this.main.feedback);
+    this.main.feedback.connect(this.main.delayEffect);
+    this.main.delayEffect.connect(this.main.filter);
+    this.main.filter.connect(this.main.bypassNode);
+    this.main.bypassNode.connect(this.main.mixNode);
   };
 
   this.setDelayTime = function(interval){
-    __WEBPACK_IMPORTED_MODULE_0__main_js__["delayEffect"].delayTime.value = interval;
+    this.main.delayEffect.delayTime.value = interval;
   };
 
   this.setDelayIntensity = function(intensity){
-    __WEBPACK_IMPORTED_MODULE_0__main_js__["feedback"].gain.value = intensity;
+    this.main.feedback.gain.value = intensity;
   };
 
   this.setDelayBypass = function(intensity){
-    __WEBPACK_IMPORTED_MODULE_0__main_js__["bypassNode"].gain.value = intensity;
+    this.main.bypassNode.gain.value = intensity;
   };
 
   this.setDelayFilter = function(intensity){
-    __WEBPACK_IMPORTED_MODULE_0__main_js__["filter"].frequency.value = intensity;
+    this.main.filter.frequency.value = intensity;
   };
 }
 
@@ -404,14 +180,42 @@ function Delay(){
 
 
 /***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+function MasterClass(){
+  this.audioContext = new AudioContext();
+  this.mixNode = this.audioContext.createGain();
+  this.volumeNode = this.audioContext.createGain();
+  this.sampleNode = this.audioContext.createGain();
+  this.volumeAnalyser = this.audioContext.createAnalyser();
+  this.tremoloNode = this.audioContext.createGain();
+  this.delayEffect = this.audioContext.createDelay(0.5);
+  this.feedback = this.audioContext.createGain();
+  this.bypassNode = this.audioContext.createGain();
+  this.filter = this.audioContext.createBiquadFilter();
+  this.streamSource = null;
+  this.volumeNode.gain.value = 0;
+  this.delayEffect.delayTime.value = 0.25;
+  this.feedback.gain.value = 0;
+  this.filter.frequency.value = 10000;
+  this.bypassNode.gain.value = 0.5;
+  this.tremoloNode.gain.value = 1;
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (MasterClass);
+
+
+/***/ }),
 /* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_js__ = __webpack_require__(0);
 
 
-function Oscilloscope(){
+function Oscilloscope(main){
+  this.main = main;
   let drawVisual;
   let canvas = document.querySelector('.waveform');
   let canvasCtx = canvas.getContext('2d');
@@ -419,14 +223,14 @@ function Oscilloscope(){
   this.visualize = function(){
     let WIDTH = canvas.width;
     let HEIGHT = canvas.height;
-    __WEBPACK_IMPORTED_MODULE_0__main_js__["volumeAnalyser"].fftSize = 2048;
-    let bufferLength = __WEBPACK_IMPORTED_MODULE_0__main_js__["volumeAnalyser"].frequencyBinCount;
+    this.main.volumeAnalyser.fftSize = 2048;
+    let bufferLength = this.main.volumeAnalyser.frequencyBinCount;
     let dataArray = new Uint8Array(bufferLength);
     canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-
+    let that = this;
     function draw(){
       drawVisual = requestAnimationFrame(draw);
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["volumeAnalyser"].getByteTimeDomainData(dataArray);
+      that.main.volumeAnalyser.getByteTimeDomainData(dataArray);
       canvasCtx.fillStyle = 'rgb(0, 0, 0)';
       canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
@@ -461,95 +265,13 @@ function Oscilloscope(){
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_js__ = __webpack_require__(0);
-
-
-function PageHandler(){
-  let sample;
-  this.handleSamplePlay = function(button, audioBuffer) {
-    if (button.children[0].className.includes('fa-play')){
-      if (sample){
-        sample.disconnect(__WEBPACK_IMPORTED_MODULE_0__main_js__["sampleNode"]);
-        let array = Array.from(document.querySelectorAll('.sample-item'));
-        array.forEach((item) => {
-          item.children[0].className = 'fa fa-play';
-        });
-      }
-      button.children[0].className = 'fa fa-pause';
-      sample = __WEBPACK_IMPORTED_MODULE_0__main_js__["audioContext"].createBufferSource();
-      sample.connect(__WEBPACK_IMPORTED_MODULE_0__main_js__["sampleNode"]);
-      sample.buffer = audioBuffer;
-      sample.loop = true;
-      sample.start();
-    } else if (button.children[0].className.includes('fa-pause')){
-      button.children[0].className = 'fa fa-play';
-      sample.stop();
-    }
-  };
-
-  this.startStopAudio = function(){
-    if (__WEBPACK_IMPORTED_MODULE_0__main_js__["onOff"].className ==='audio-off') {
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["onOff"].className = 'audio-on';
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["volumeNode"].connect(__WEBPACK_IMPORTED_MODULE_0__main_js__["volumeAnalyser"]);
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["mixNode"].connect(__WEBPACK_IMPORTED_MODULE_0__main_js__["volumeNode"]);
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["mixNode"].gain.value = 1;
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["volumeNode"].gain.value = .5;
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["sampleNode"].connect(__WEBPACK_IMPORTED_MODULE_0__main_js__["mixNode"]);
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["volumeAnalyser"].connect(__WEBPACK_IMPORTED_MODULE_0__main_js__["audioContext"].destination);
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["onOff"].innerHTML='ON';
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["myOscilloscope"].visualize();
-    } else {
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["onOff"].className = 'audio-off';
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["volumeNode"].disconnect(__WEBPACK_IMPORTED_MODULE_0__main_js__["volumeAnalyser"]);
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["volumeNode"].gain.value = 0;
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["onOff"].innerHTML='OFF';
-    }
-  };
-
-  this.handleDelay = function(){
-    if (__WEBPACK_IMPORTED_MODULE_0__main_js__["delayOnOff"].className === 'delay-off'){
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["delayOnOff"].className = 'delay-on';
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["delayOnOff"].innerHTML = 'ON';
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["myDelay"].createDelay();
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["bypassNode"].gain.value = 0.5;
-    } else {
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["delayOnOff"].className = 'delay-off';
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["delayOnOff"].innerHTML = 'OFF';
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["bypassNode"].gain.value = 0;
-    }
-  };
-
-  this.handleTremolo = function(){
-    if (__WEBPACK_IMPORTED_MODULE_0__main_js__["tremoloOnOff"].className === 'tremolo-off'){
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["tremoloOnOff"].className = 'tremolo-on';
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["tremoloOnOff"].innerHTML = 'ON';
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["myTremolo"].createTremolo();
-    } else {
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["tremoloOnOff"].className = 'tremolo-off';
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["tremoloOnOff"].innerHTML = 'OFF';
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["mixNode"].disconnect(__WEBPACK_IMPORTED_MODULE_0__main_js__["tremoloNode"]);
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["mixNode"].connect(__WEBPACK_IMPORTED_MODULE_0__main_js__["volumeNode"]);
-    }
-  };
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (PageHandler);
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_js__ = __webpack_require__(0);
-
-
-function Tremolo(){
+function Tremolo(main){
+  this.main = main;
   this.createTremolo = function(){
-    if (__WEBPACK_IMPORTED_MODULE_0__main_js__["mixNode"]){
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["mixNode"].disconnect(__WEBPACK_IMPORTED_MODULE_0__main_js__["volumeNode"]);
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["mixNode"].connect(__WEBPACK_IMPORTED_MODULE_0__main_js__["tremoloNode"]);
-      __WEBPACK_IMPORTED_MODULE_0__main_js__["tremoloNode"].connect(__WEBPACK_IMPORTED_MODULE_0__main_js__["volumeNode"]);
+    if (this.main.mixNode){
+      this.main.mixNode.disconnect(this.main.volumeNode);
+      this.main.mixNode.connect(this.main.tremoloNode);
+      this.main.tremoloNode.connect(this.main.volumeNode);
       this.setTremolo(0, 20);
     }
   };
@@ -559,6 +281,7 @@ function Tremolo(){
     let maxGain = 1;
     let val = 0;
     let direction;
+    let that = this;
     tremoloInterval = setInterval(function(){
       if (val >= maxGain){
         direction = 'down';
@@ -567,16 +290,256 @@ function Tremolo(){
       }
       if (direction === 'down'){
         val -= .1;
-        __WEBPACK_IMPORTED_MODULE_0__main_js__["tremoloNode"].gain.value = val;
+        that.main.tremoloNode.gain.value = val;
       } else if (direction === 'up'){
         val += .1;
-        __WEBPACK_IMPORTED_MODULE_0__main_js__["tremoloNode"].gain.value = val;
+        that.main.tremoloNode.gain.value = val;
       }
     }, speed);
   };
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Tremolo);
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__delay_effect_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__oscilloscope_effect_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__audio_handler_js__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tremolo_effect_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__master_class_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__page_handler_js__ = __webpack_require__(7);
+
+
+
+
+
+
+
+
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
+
+let main = new __WEBPACK_IMPORTED_MODULE_5__master_class_js__["a" /* default */]();
+
+let myDelay = new __WEBPACK_IMPORTED_MODULE_0__delay_effect_js__["a" /* default */](main);
+let myOscilloscope = new __WEBPACK_IMPORTED_MODULE_1__oscilloscope_effect_js__["a" /* default */](main);
+let myTremolo = new __WEBPACK_IMPORTED_MODULE_4__tremolo_effect_js__["a" /* default */](main);
+let myPageHandler = new __WEBPACK_IMPORTED_MODULE_6__page_handler_js__["a" /* default */](main, myDelay, myTremolo, myOscilloscope);
+let myAudio = new __WEBPACK_IMPORTED_MODULE_2__audio_handler_js__["a" /* default */](main, myDelay);
+let myRecorder = new __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__["a" /* default */](main);
+
+let url1 = 'https://s3.amazonaws.com/webfx/sample1.mp3';
+let url2 = 'https://s3.amazonaws.com/webfx/sample2.mp3';
+let url3 = 'https://s3.amazonaws.com/webfx/sample3.mp3';
+let audio1Buffer;
+let audio2Buffer;
+let audio3Buffer;
+
+window.fetch('https://s3.amazonaws.com/webfx/sample1.mp3')
+.then(response => response.arrayBuffer())
+.then(arrayBuffer => main.audioContext.decodeAudioData(arrayBuffer))
+.then(audioBuffer => { audio1Buffer = audioBuffer; });
+
+window.fetch('https://s3.amazonaws.com/webfx/sample2.mp3')
+.then(response => response.arrayBuffer())
+.then(arrayBuffer => main.audioContext.decodeAudioData(arrayBuffer))
+.then(audioBuffer => { audio2Buffer = audioBuffer; });
+
+window.fetch('https://s3.amazonaws.com/webfx/sample3.mp3')
+.then(response => response.arrayBuffer())
+.then(arrayBuffer => main.audioContext.decodeAudioData(arrayBuffer))
+.then(audioBuffer => { audio3Buffer = audioBuffer; });
+
+let onOff = document.querySelector('#on-off');
+let delayOnOff = document.querySelector('#delay-on-off');
+let tremoloOnOff = document.querySelector('#tremolo-on-off');
+let play1Button = document.querySelector('#play1');
+let play2Button = document.querySelector('#play2');
+let play3Button = document.querySelector('#play3');
+
+onOff.onclick = () => myPageHandler.startStopAudio(onOff);
+delayOnOff.onclick = () => myPageHandler.handleDelay(delayOnOff);
+tremoloOnOff.onclick = () => myPageHandler.handleTremolo(tremoloOnOff);
+play1Button.onclick = () => myPageHandler.handleSamplePlay(play1Button, audio1Buffer);
+play2Button.onclick = () => myPageHandler.handleSamplePlay(play2Button, audio2Buffer);
+play3Button.onclick = () => myPageHandler.handleSamplePlay(play3Button, audio3Buffer);
+$('input')[0].onclick = () => myAudio.initAudio();
+$('input')[1].onclick = () => myAudio.cancelAudio(onOff, delayOnOff);
+$('.recorder')[0].onclick = () => myRecorder.handleRecord();
+
+$('#volume').slider({
+  orientation: 'vertical',
+  range: 'min',
+  min: 0,
+  max: 100,
+  value: 50,
+  animate: true,
+  slide: function(event, ui){
+    if (main.volumeNode)
+    myAudio.setVolume((ui.value) / 100);
+  }
+});
+
+$('#delay-time').slider({
+  range: 'min',
+  min: 0,
+  max: 100,
+  value: 50,
+  animate: true,
+  slide: function(event, ui){
+    if (main.volumeNode)
+    myDelay.setDelayTime((ui.value) / 100 * .5);
+  }
+});
+
+$('#delay-intensity').slider({
+  range: 'min',
+  min: 0,
+  max: 100,
+  value: 0,
+  animate: true,
+  slide: function(event, ui){
+    if (main.volumeNode)
+    myDelay.setDelayIntensity((ui.value) / 100 * .8);
+  }
+});
+
+$('#delay-filter').slider({
+  range: 'min',
+  min: 0,
+  max: 100,
+  value: 100,
+  animate: true,
+  slide: function(event, ui){
+    if (main.volumeNode)
+    myDelay.setDelayFilter(ui.value * 100);
+  }
+});
+
+$('#delay-bypass').slider({
+  range: 'min',
+  min: 0,
+  max: 100,
+  value: 50,
+  animate: true,
+  slide: function(event, ui){
+    if (main.volumeNode)
+    myDelay.setDelayBypass(ui.value / 100);
+  }
+});
+
+$('#tremolo-depth').slider({
+  range: 'min',
+  min: 0,
+  max: 100,
+  value: 0,
+  animate: true,
+  slide: function(event, ui){
+    myTremolo.setTremolo((ui.value / 100), $('#tremolo-speed').slider('option', 'value'));
+  }
+});
+
+$('#tremolo-speed').slider({
+  range: 'min',
+  min: 0.5,
+  max: 20,
+  value: 10,
+  animate: true,
+  slide: function(event, ui){
+    myTremolo.setTremolo( ($('#tremolo-depth').slider('option', 'value') / 100), ui.value);
+  }
+});
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+function PageHandler(main, myDelay, myTremolo, myOscilloscope){
+  this.main = main;
+  this.myDelay = myDelay;
+  this.myTremolo = myTremolo;
+  this.myOscilloscope = myOscilloscope;
+
+  let sample;
+  this.handleSamplePlay = function(button, audioBuffer) {
+    if (button.children[0].className.includes('fa-play')){
+      if (sample){
+        sample.disconnect(this.main.sampleNode);
+        let array = Array.from(document.querySelectorAll('.sample-item'));
+        array.forEach((item) => {
+          item.children[0].className = 'fa fa-play';
+        });
+      }
+      button.children[0].className = 'fa fa-pause';
+      sample = main.audioContext.createBufferSource();
+      sample.connect(main.sampleNode);
+      sample.buffer = audioBuffer;
+      sample.loop = true;
+      sample.start();
+    } else if (button.children[0].className.includes('fa-pause')){
+      button.children[0].className = 'fa fa-play';
+      sample.stop();
+    }
+  };
+
+  this.startStopAudio = function(button){
+    if (button.className ==='audio-off') {
+      button.className = 'audio-on';
+      main.volumeNode.connect(main.volumeAnalyser);
+      main.mixNode.connect(main.volumeNode);
+      main.mixNode.gain.value = 1;
+      main.volumeNode.gain.value = .5;
+      main.sampleNode.connect(main.mixNode);
+      main.volumeAnalyser.connect(main.audioContext.destination);
+      button.innerHTML='ON';
+      myOscilloscope.visualize();
+    } else {
+      button.className = 'audio-off';
+      main.volumeNode.disconnect(main.volumeAnalyser);
+      main.volumeNode.gain.value = 0;
+      button.innerHTML='OFF';
+    }
+  };
+
+  this.handleDelay = function(button){
+    if (button.className === 'delay-off'){
+      button.className = 'delay-on';
+      button.innerHTML = 'ON';
+      myDelay.createDelay();
+      main.bypassNode.gain.value = 0.5;
+      if (main.streamSource){
+        main.streamSource.connect(main.delayEffect);
+      }
+    } else {
+      button.className = 'delay-off';
+      button.innerHTML = 'OFF';
+      main.bypassNode.gain.value = 0;
+    }
+  };
+
+  this.handleTremolo = function(button){
+    if (button.className === 'tremolo-off'){
+      button.className = 'tremolo-on';
+      button.innerHTML = 'ON';
+      myTremolo.createTremolo();
+    } else {
+      button.className = 'tremolo-off';
+      button.innerHTML = 'OFF';
+      main.mixNode.disconnect(main.tremoloNode);
+      main.mixNode.connect(main.volumeNode);
+    }
+  };
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (PageHandler);
 
 
 /***/ })

@@ -1,21 +1,22 @@
-import { sampleNode, audioContext, volumeAnalyser, onOff, volumeNode,mixNode,
-myOscilloscope, streamSource, delayOnOff, myDelay, myAudio, bypassNode,
-tremoloOnOff, tremoloNode, myTremolo, delayEffect } from './main.js';
+function PageHandler(main, myDelay, myTremolo, myOscilloscope){
+  this.main = main;
+  this.myDelay = myDelay;
+  this.myTremolo = myTremolo;
+  this.myOscilloscope = myOscilloscope;
 
-function PageHandler(){
   let sample;
   this.handleSamplePlay = function(button, audioBuffer) {
     if (button.children[0].className.includes('fa-play')){
       if (sample){
-        sample.disconnect(sampleNode);
+        sample.disconnect(this.main.sampleNode);
         let array = Array.from(document.querySelectorAll('.sample-item'));
         array.forEach((item) => {
           item.children[0].className = 'fa fa-play';
         });
       }
       button.children[0].className = 'fa fa-pause';
-      sample = audioContext.createBufferSource();
-      sample.connect(sampleNode);
+      sample = main.audioContext.createBufferSource();
+      sample.connect(main.sampleNode);
       sample.buffer = audioBuffer;
       sample.loop = true;
       sample.start();
@@ -25,48 +26,51 @@ function PageHandler(){
     }
   };
 
-  this.startStopAudio = function(){
-    if (onOff.className ==='audio-off') {
-      onOff.className = 'audio-on';
-      volumeNode.connect(volumeAnalyser);
-      mixNode.connect(volumeNode);
-      mixNode.gain.value = 1;
-      volumeNode.gain.value = .5;
-      sampleNode.connect(mixNode);
-      volumeAnalyser.connect(audioContext.destination);
-      onOff.innerHTML='ON';
+  this.startStopAudio = function(button){
+    if (button.className ==='audio-off') {
+      button.className = 'audio-on';
+      main.volumeNode.connect(main.volumeAnalyser);
+      main.mixNode.connect(main.volumeNode);
+      main.mixNode.gain.value = 1;
+      main.volumeNode.gain.value = .5;
+      main.sampleNode.connect(main.mixNode);
+      main.volumeAnalyser.connect(main.audioContext.destination);
+      button.innerHTML='ON';
       myOscilloscope.visualize();
     } else {
-      onOff.className = 'audio-off';
-      volumeNode.disconnect(volumeAnalyser);
-      volumeNode.gain.value = 0;
-      onOff.innerHTML='OFF';
+      button.className = 'audio-off';
+      main.volumeNode.disconnect(main.volumeAnalyser);
+      main.volumeNode.gain.value = 0;
+      button.innerHTML='OFF';
     }
   };
 
-  this.handleDelay = function(){
-    if (delayOnOff.className === 'delay-off'){
-      delayOnOff.className = 'delay-on';
-      delayOnOff.innerHTML = 'ON';
+  this.handleDelay = function(button){
+    if (button.className === 'delay-off'){
+      button.className = 'delay-on';
+      button.innerHTML = 'ON';
       myDelay.createDelay();
-      bypassNode.gain.value = 0.5;
+      main.bypassNode.gain.value = 0.5;
+      if (main.streamSource){
+        main.streamSource.connect(main.delayEffect);
+      }
     } else {
-      delayOnOff.className = 'delay-off';
-      delayOnOff.innerHTML = 'OFF';
-      bypassNode.gain.value = 0;
+      button.className = 'delay-off';
+      button.innerHTML = 'OFF';
+      main.bypassNode.gain.value = 0;
     }
   };
 
-  this.handleTremolo = function(){
-    if (tremoloOnOff.className === 'tremolo-off'){
-      tremoloOnOff.className = 'tremolo-on';
-      tremoloOnOff.innerHTML = 'ON';
+  this.handleTremolo = function(button){
+    if (button.className === 'tremolo-off'){
+      button.className = 'tremolo-on';
+      button.innerHTML = 'ON';
       myTremolo.createTremolo();
     } else {
-      tremoloOnOff.className = 'tremolo-off';
-      tremoloOnOff.innerHTML = 'OFF';
-      mixNode.disconnect(tremoloNode);
-      mixNode.connect(volumeNode);
+      button.className = 'tremolo-off';
+      button.innerHTML = 'OFF';
+      main.mixNode.disconnect(main.tremoloNode);
+      main.mixNode.connect(main.volumeNode);
     }
   };
 }

@@ -1,11 +1,10 @@
-import { mixNode, tremoloNode, volumeNode } from './main.js';
-
-function Tremolo(){
+function Tremolo(main){
+  this.main = main;
   this.createTremolo = function(){
-    if (mixNode){
-      mixNode.disconnect(volumeNode);
-      mixNode.connect(tremoloNode);
-      tremoloNode.connect(volumeNode);
+    if (this.main.mixNode){
+      this.main.mixNode.disconnect(this.main.volumeNode);
+      this.main.mixNode.connect(this.main.tremoloNode);
+      this.main.tremoloNode.connect(this.main.volumeNode);
       this.setTremolo(0, 20);
     }
   };
@@ -15,6 +14,7 @@ function Tremolo(){
     let maxGain = 1;
     let val = 0;
     let direction;
+    let that = this;
     tremoloInterval = setInterval(function(){
       if (val >= maxGain){
         direction = 'down';
@@ -23,10 +23,10 @@ function Tremolo(){
       }
       if (direction === 'down'){
         val -= .1;
-        tremoloNode.gain.value = val;
+        that.main.tremoloNode.gain.value = val;
       } else if (direction === 'up'){
         val += .1;
-        tremoloNode.gain.value = val;
+        that.main.tremoloNode.gain.value = val;
       }
     }, speed);
   };

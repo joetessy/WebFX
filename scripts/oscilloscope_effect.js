@@ -1,6 +1,7 @@
-import { volumeAnalyser } from './main.js';
 
-function Oscilloscope(){
+
+function Oscilloscope(main){
+  this.main = main;
   let drawVisual;
   let canvas = document.querySelector('.waveform');
   let canvasCtx = canvas.getContext('2d');
@@ -8,14 +9,14 @@ function Oscilloscope(){
   this.visualize = function(){
     let WIDTH = canvas.width;
     let HEIGHT = canvas.height;
-    volumeAnalyser.fftSize = 2048;
-    let bufferLength = volumeAnalyser.frequencyBinCount;
+    this.main.volumeAnalyser.fftSize = 2048;
+    let bufferLength = this.main.volumeAnalyser.frequencyBinCount;
     let dataArray = new Uint8Array(bufferLength);
     canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-
+    let that = this;
     function draw(){
       drawVisual = requestAnimationFrame(draw);
-      volumeAnalyser.getByteTimeDomainData(dataArray);
+      that.main.volumeAnalyser.getByteTimeDomainData(dataArray);
       canvasCtx.fillStyle = 'rgb(0, 0, 0)';
       canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
