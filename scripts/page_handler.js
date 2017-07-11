@@ -48,10 +48,8 @@ function PageHandler(){
     if (delayOnOff.className === 'delay-off'){
       delayOnOff.className = 'delay-on';
       delayOnOff.innerHTML = 'ON';
+      myDelay.createDelay();
       bypassNode.gain.value = 0.5;
-      if (document.querySelectorAll('input')[1].checked && streamSource){
-        // streamSource.disconnect(delayEffect);
-      }
     } else {
       delayOnOff.className = 'delay-off';
       delayOnOff.innerHTML = 'OFF';
