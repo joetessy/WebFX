@@ -100,18 +100,6 @@ header {
   align-items: center;
 }
 
-.user-controls{
-  width: 260px;
-  height: 125px;
-  margin: 10px 0;
-  background-color: #4BB3FD;
-  border-radius: 10px;
-  border: 1px solid black;
-  padding: 20px;
-  color: black;
-  box-shadow: -2px 3px 11px black;
-  font-size: 13px;
-}
 
 .controls-container{
   display: flex;
