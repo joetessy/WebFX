@@ -6,8 +6,6 @@ import Tremolo from './tremolo_effect.js';
 import MasterClass from './master_class.js';
 import PageHandler from './page_handler.js';
 
-window.AudioContext = window.AudioContext || window.webkitAudioContext;
-
 let main = new MasterClass();
 
 let myDelay = new Delay(main);

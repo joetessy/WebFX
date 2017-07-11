@@ -1,4 +1,5 @@
 function MasterClass(){
+  var AudioContext = window.AudioContext || window.webkitAudioContext;
   this.audioContext = new AudioContext();
   this.mixNode = this.audioContext.createGain();
   this.volumeNode = this.audioContext.createGain();
