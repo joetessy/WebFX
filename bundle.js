@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -185,6 +185,7 @@ function Delay(main){
 
 "use strict";
 function MasterClass(){
+  var AudioContext = window.AudioContext || window.webkitAudioContext;
   this.audioContext = new AudioContext();
   this.mixNode = this.audioContext.createGain();
   this.volumeNode = this.audioContext.createGain();
@@ -265,6 +266,91 @@ function Oscilloscope(main){
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+function PageHandler(main, myDelay, myTremolo, myOscilloscope){
+  this.main = main;
+  this.myDelay = myDelay;
+  this.myTremolo = myTremolo;
+  this.myOscilloscope = myOscilloscope;
+
+  let sample;
+  this.handleSamplePlay = function(button, audioBuffer) {
+    if (button.children[0].className.includes('fa-play')){
+      if (sample){
+        sample.disconnect(this.main.sampleNode);
+        let array = Array.from(document.querySelectorAll('.sample-item'));
+        array.forEach((item) => {
+          item.children[0].className = 'fa fa-play';
+        });
+      }
+      button.children[0].className = 'fa fa-pause';
+      sample = main.audioContext.createBufferSource();
+      sample.connect(main.sampleNode);
+      sample.buffer = audioBuffer;
+      sample.loop = true;
+      sample.start();
+    } else if (button.children[0].className.includes('fa-pause')){
+      button.children[0].className = 'fa fa-play';
+      sample.stop();
+    }
+  };
+
+  this.startStopAudio = function(button){
+    if (button.className ==='audio-off') {
+      button.className = 'audio-on';
+      main.volumeNode.connect(main.volumeAnalyser);
+      main.mixNode.connect(main.volumeNode);
+      main.mixNode.gain.value = 1;
+      main.volumeNode.gain.value = .5;
+      main.sampleNode.connect(main.mixNode);
+      main.volumeAnalyser.connect(main.audioContext.destination);
+      button.innerHTML='ON';
+      myOscilloscope.visualize();
+    } else {
+      button.className = 'audio-off';
+      main.volumeNode.disconnect(main.volumeAnalyser);
+      main.volumeNode.gain.value = 0;
+      button.innerHTML='OFF';
+    }
+  };
+
+  this.handleDelay = function(button){
+    if (button.className === 'delay-off'){
+      button.className = 'delay-on';
+      button.innerHTML = 'ON';
+      myDelay.createDelay();
+      main.bypassNode.gain.value = 0.5;
+      if (main.streamSource){
+        main.streamSource.connect(main.delayEffect);
+      }
+    } else {
+      button.className = 'delay-off';
+      button.innerHTML = 'OFF';
+      main.bypassNode.gain.value = 0;
+    }
+  };
+
+  this.handleTremolo = function(button){
+    if (button.className === 'tremolo-off'){
+      button.className = 'tremolo-on';
+      button.innerHTML = 'ON';
+      myTremolo.createTremolo();
+    } else {
+      button.className = 'tremolo-off';
+      button.innerHTML = 'OFF';
+      main.mixNode.disconnect(main.tremoloNode);
+      main.mixNode.connect(main.volumeNode);
+    }
+  };
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (PageHandler);
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 function Tremolo(main){
   this.main = main;
   this.createTremolo = function(){
@@ -303,7 +389,7 @@ function Tremolo(main){
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -312,9 +398,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__oscilloscope_effect_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__audio_handler_js__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tremolo_effect_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tremolo_effect_js__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__master_class_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__page_handler_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__page_handler_js__ = __webpack_require__(5);
 
 
 
@@ -322,8 +408,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
-window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 let main = new __WEBPACK_IMPORTED_MODULE_5__master_class_js__["a" /* default */]();
 
@@ -455,91 +539,6 @@ $('#tremolo-speed').slider({
     myTremolo.setTremolo( ($('#tremolo-depth').slider('option', 'value') / 100), ui.value);
   }
 });
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-function PageHandler(main, myDelay, myTremolo, myOscilloscope){
-  this.main = main;
-  this.myDelay = myDelay;
-  this.myTremolo = myTremolo;
-  this.myOscilloscope = myOscilloscope;
-
-  let sample;
-  this.handleSamplePlay = function(button, audioBuffer) {
-    if (button.children[0].className.includes('fa-play')){
-      if (sample){
-        sample.disconnect(this.main.sampleNode);
-        let array = Array.from(document.querySelectorAll('.sample-item'));
-        array.forEach((item) => {
-          item.children[0].className = 'fa fa-play';
-        });
-      }
-      button.children[0].className = 'fa fa-pause';
-      sample = main.audioContext.createBufferSource();
-      sample.connect(main.sampleNode);
-      sample.buffer = audioBuffer;
-      sample.loop = true;
-      sample.start();
-    } else if (button.children[0].className.includes('fa-pause')){
-      button.children[0].className = 'fa fa-play';
-      sample.stop();
-    }
-  };
-
-  this.startStopAudio = function(button){
-    if (button.className ==='audio-off') {
-      button.className = 'audio-on';
-      main.volumeNode.connect(main.volumeAnalyser);
-      main.mixNode.connect(main.volumeNode);
-      main.mixNode.gain.value = 1;
-      main.volumeNode.gain.value = .5;
-      main.sampleNode.connect(main.mixNode);
-      main.volumeAnalyser.connect(main.audioContext.destination);
-      button.innerHTML='ON';
-      myOscilloscope.visualize();
-    } else {
-      button.className = 'audio-off';
-      main.volumeNode.disconnect(main.volumeAnalyser);
-      main.volumeNode.gain.value = 0;
-      button.innerHTML='OFF';
-    }
-  };
-
-  this.handleDelay = function(button){
-    if (button.className === 'delay-off'){
-      button.className = 'delay-on';
-      button.innerHTML = 'ON';
-      myDelay.createDelay();
-      main.bypassNode.gain.value = 0.5;
-      if (main.streamSource){
-        main.streamSource.connect(main.delayEffect);
-      }
-    } else {
-      button.className = 'delay-off';
-      button.innerHTML = 'OFF';
-      main.bypassNode.gain.value = 0;
-    }
-  };
-
-  this.handleTremolo = function(button){
-    if (button.className === 'tremolo-off'){
-      button.className = 'tremolo-on';
-      button.innerHTML = 'ON';
-      myTremolo.createTremolo();
-    } else {
-      button.className = 'tremolo-off';
-      button.innerHTML = 'OFF';
-      main.mixNode.disconnect(main.tremoloNode);
-      main.mixNode.connect(main.volumeNode);
-    }
-  };
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (PageHandler);
 
 
 /***/ })
