@@ -80,12 +80,10 @@
                 <li>
                   <input type="radio"
                   name="input"
-                  value="off"
-                  onclick='myAudio.initAudio()'> <h3>Input On</h3>
+                  value="off"> <h3>Input On</h3>
                 </li>
                 <li>
-                  <input type="radio" checked name="input" value="on"
-                  onclick='myAudio.cancelAudio()'> <h3>Input Off</h3><br>
+                  <input type="radio" checked name="input" value="on"> <h3>Input Off</h3><br>
                 </li>
               </div>
               <div class='samples'>
@@ -181,7 +179,7 @@
     <div class='user-options'>
       <div class='recording-module'>
         <h2>Record</h2>
-        <div class='record-off recorder' onclick='handleRecord()'></div>
+        <div class='record-off recorder'></div>
         <a id="save" href="#">
           <div class='save'>
             SAVE
@@ -194,9 +192,14 @@
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js" charset="utf-8"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
-
-  <script src="scripts/main.js" charset="utf-8"></script>
+  <!-- <script src="scripts/audio_handler.js" charset="utf-8"></script>
+  <script src="scripts/audio_recorder.js" charset="utf-8"></script>
+  <script src="scripts/delay_effect.js" charset="utf-8"></script>
+  <script src="scripts/oscilloscope_effect.js" charset="utf-8"></script>
+  <script src="scripts/page_handler.js" charset="utf-8"></script>
+  <script src="scripts/tremolo_effect.js" charset="utf-8"></script>
+  <script src='scripts/main.js'></script> -->
+  <script src="bundle.js" charset="utf-8"></script>
 </body>
 
 </html>
