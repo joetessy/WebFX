@@ -561,11 +561,11 @@ p {
   z-index:24;
   position: absolute;
   visibility: hidden;
-  width: 200px;
+  width: 218px;
   opacity: 0;
   background-color: white;
   left: 101%;
-  padding: 15px;
+  padding: 9px;
   box-sizing: border-box;
   color: black;
   border: 2px solid black;
