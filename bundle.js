@@ -116,35 +116,36 @@ function AudioHandler(main, myDelay){
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// function AudioRecorder(main){
-//   this.main = main;
-//   const recorder = document.querySelector('.recorder');
-//   var rec = new Recorder(this.main.volumeNode);
-//
-//     this.handleRecord = function(){
-//       if (recorder.className.includes('record-off')){
-//         recorder.className = 'recorder record-on';
-//         rec.clear();
-//         rec.record();
-//       } else {
-//         recorder.className = 'recorder record-off';
-//         rec.stop();
-//         rec.getBuffers( this.gotBuffers );
-//       }
-//     };
-//
-//     function doneEncoding( blob ) {
-//       Recorder.setupDownload( blob, "myRecording.wav" );
-//     }
-//
-//     this.gotBuffers = function ( buffers ) {
-//       rec.exportWAV(doneEncoding );
-//     };
-// }
-//
-// export default AudioRecorder;
+"use strict";
+function AudioRecorder(main){
+  this.main = main;
+  const recorder = document.querySelector('.recorder');
+  var rec = new Recorder(this.main.volumeNode);
+
+    this.handleRecord = function(){
+      if (recorder.className.includes('record-off')){
+        recorder.className = 'recorder record-on';
+        rec.clear();
+        rec.record();
+      } else {
+        recorder.className = 'recorder record-off';
+        rec.stop();
+        rec.getBuffers( this.gotBuffers );
+      }
+    };
+
+    function doneEncoding( blob ) {
+      Recorder.setupDownload( blob, "myRecording.wav" );
+    }
+
+    this.gotBuffers = function ( buffers ) {
+      rec.exportWAV(doneEncoding );
+    };
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (AudioRecorder);
 
 
 /***/ }),
@@ -402,7 +403,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__oscilloscope_effect_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__audio_handler_js__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tremolo_effect_js__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__master_class_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__page_handler_js__ = __webpack_require__(5);
@@ -420,7 +420,7 @@ let myDelay = new __WEBPACK_IMPORTED_MODULE_0__delay_effect_js__["a" /* default 
 let myOscilloscope = new __WEBPACK_IMPORTED_MODULE_1__oscilloscope_effect_js__["a" /* default */](main);
 let myTremolo = new __WEBPACK_IMPORTED_MODULE_4__tremolo_effect_js__["a" /* default */](main);
 let myAudio = new __WEBPACK_IMPORTED_MODULE_2__audio_handler_js__["a" /* default */](main, myDelay);
-// let myRecorder = new AudioRecorder(main);
+let myRecorder = new __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__["a" /* default */](main);
 let myPageHandler = new __WEBPACK_IMPORTED_MODULE_6__page_handler_js__["a" /* default */](main, myDelay, myTremolo, myOscilloscope);
 
 let url1 = 'https://s3.amazonaws.com/webfx/sample1.mp3';
