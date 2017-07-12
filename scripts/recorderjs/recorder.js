@@ -103,7 +103,6 @@ DEALINGS IN THE SOFTWARE.
   };
 
   Recorder.setupDownload = function(blob, filename){
-    console.log(blob);
     var url = (window.URL || window.webkitURL).createObjectURL(blob);
     var link = document.getElementById("save");
     link.href = url;
