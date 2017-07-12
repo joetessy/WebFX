@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> </title>
+    <title>WebFX by Joe Tessy</title>
     <link rel="icon"
       type="image/png"
       src="./docs/favicon.png">
@@ -14,6 +14,9 @@
 </head>
 
 <body>
+  <div class='audio-fail'>
+    Couldn't get audio, check audio input in system preferences
+  </div>
   <div class='content'>
     <div class='info'>
       <img src='./fonts/webfx.png' class='logo'/>
@@ -118,6 +121,15 @@
     </div>
     <div class=effects>
       <div class='effect'>
+        <i class="fa fa-question-circle volume-question" aria-hidden="true"></i>
+        <div class='volume-instructions'>
+          <li>
+            Toggle ON/OFF button to start/stop audio.
+          </li>
+          <li>
+            Control volume with slider
+          </li>
+        </div>
         <h2> Volume </h2>
         <div class='volume-controls'>
           <div class='volume-module-item'/>
@@ -133,6 +145,24 @@
       </div>
       <div class='effect'>
         <div class='delay-container'>
+          <i class="fa fa-question-circle delay-question" aria-hidden="true"></i>
+          <div class='delay-instructions'>
+            <li>
+              Click OFF button to initialize Delay
+            </li>
+            <li>
+              Control delay speed with 'Speed' slider
+            </li>
+            <li>
+              Control delay decay with 'Length' slider
+            </li>
+            <li>
+              Control delay volume with 'Level' slider
+            </li>
+            <li>
+              Control delay cutoff frequency with 'Filter' slider
+            </li>
+          </div>
           <h2> Delay </h2>
           <div class='delay-controls'>
             <div class='delay-on-container'/>
@@ -158,6 +188,18 @@
         </div>
       </div>
       <div class='effect'>
+        <i class="fa fa-question-circle tremolo-question" aria-hidden="true"></i>
+        <div class='tremolo-instructions'>
+          <li>
+            Click 'OFF' button to initialize Tremolo
+          </li>
+          <li>
+            Control minimum gain with 'Depth' slider
+          </li>
+          <li>
+            Control oscillation speed with 'Speed' slider
+          </li>
+        </div>
         <h2> Tremolo </h2>
         <div class='tremolo-controls'>
           <div class='tremolo-on-container'/>
@@ -178,6 +220,15 @@
     </div>
     <div class='user-options'>
       <div class='recording-module'>
+        <i class="fa fa-question-circle record-question" aria-hidden="true"></i>
+        <div class='record-instructions'>
+          <li>
+            Click red button to start/stop recording
+          </li>
+          <li>
+            After stopping recording. Click green 'Save' button to download recording
+          </li>
+        </div>
         <h2>Record</h2>
         <div class='record-off recorder'></div>
         <a id="save" href="#">

@@ -11,9 +11,9 @@ let main = new MasterClass();
 let myDelay = new Delay(main);
 let myOscilloscope = new Oscilloscope(main);
 let myTremolo = new Tremolo(main);
-let myPageHandler = new PageHandler(main, myDelay, myTremolo, myOscilloscope);
 let myAudio = new AudioHandler(main, myDelay);
-let myRecorder = new AudioRecorder(main);
+// let myRecorder = new AudioRecorder(main);
+let myPageHandler = new PageHandler(main, myDelay, myTremolo, myOscilloscope);
 
 let url1 = 'https://s3.amazonaws.com/webfx/sample1.mp3';
 let url2 = 'https://s3.amazonaws.com/webfx/sample2.mp3';

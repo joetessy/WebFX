@@ -16,7 +16,12 @@ function AudioHandler(main, myDelay){
   };
 
   function didntGetStream(){
-    console.log('No stream :(');
+    document.querySelector('.content').className = 'content-fade content';
+    document.querySelector('.audio-fail').className = 'audio-fail show-fail';
+    setTimeout(function(){
+      document.querySelector('.audio-fail').className ='audio-fail';
+      document.querySelector('.content').className = 'content';
+    }, 2000);
   }
 
   this.setVolume = function(volume){
