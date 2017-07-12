@@ -55,10 +55,10 @@ h2 {
 }
 
 @keyframes content-fade{
-  0% {opacity: 1; }
-  5% { opacity: .2; }
-  95% { opacity: .2; }
-  100% {opacity: 1; }
+  0% {opacity: 1;}
+  5% {opacity: .2;}
+  95% {opacity: .2;}
+  100% {opacity: 1;}
 }
 
 .instructions-container{
