@@ -55,10 +55,10 @@ h2 {
 }
 
 @keyframes content-fade{
-  0% {opacity: 1;}
-  5% {opacity: .2;}
-  95% {opacity: .2;}
-  100% {opacity: 1};
+  0% {opacity: 1; }
+  5% { opacity: .2; }
+  95% { opacity: .2; }
+  100% {opacity: 1; }
 }
 
 .instructions-container{
@@ -529,6 +529,7 @@ p {
   position: absolute;
   cursor: pointer;
   color:  white;
+  transition: color, 0.2s;
 }
 
 .recording-module .fa-question-circle{
@@ -550,6 +551,9 @@ p {
   opacity: 1;
 }
 
+.fa-question-circle:hover {
+  color: black;
+}
 
 .volume-instructions,
 .delay-instructions,
@@ -560,7 +564,7 @@ p {
   width: 200px;
   opacity: 0;
   background-color: white;
-  left: 103%;
+  left: 101%;
   padding: 15px;
   box-sizing: border-box;
   color: black;
@@ -577,7 +581,7 @@ p {
   width: 200px;
   background-color: white;
   left: -35px;
-  top: -51%;
+  top: -49%;
   opacity: 0;
   padding: 15px;
   box-sizing: border-box;

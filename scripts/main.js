@@ -12,7 +12,7 @@ let myDelay = new Delay(main);
 let myOscilloscope = new Oscilloscope(main);
 let myTremolo = new Tremolo(main);
 let myAudio = new AudioHandler(main, myDelay);
-// let myRecorder = new AudioRecorder(main);
+let myRecorder = new AudioRecorder(main);
 let myPageHandler = new PageHandler(main, myDelay, myTremolo, myOscilloscope);
 
 let url1 = 'https://s3.amazonaws.com/webfx/sample1.mp3';
