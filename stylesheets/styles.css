@@ -561,7 +561,7 @@ p {
   z-index:24;
   position: absolute;
   visibility: hidden;
-  width: 218px;
+  width: 230px;
   opacity: 0;
   background-color: white;
   left: 101%;
@@ -578,10 +578,10 @@ p {
 .record-instructions{
   z-index:24;
   position: absolute;
-  width: 200px;
+  width: 230px;
   background-color: white;
-  left: -35px;
-  top: -49%;
+  left: -49px;
+  top: -34%;
   opacity: 0;
   padding: 15px;
   box-sizing: border-box;
@@ -591,4 +591,10 @@ p {
   font-size: 13px;
   font-weight: lighter;
   transition: opacity, 0.5s;
+}
+
+.recorder{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

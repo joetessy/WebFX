@@ -16,9 +16,9 @@ function PageHandler(main, myDelay, myTremolo, myOscilloscope){
       }
       button.children[0].className = 'fa fa-pause';
       sample = main.audioContext.createBufferSource();
-      sample.connect(main.sampleNode);
       sample.buffer = audioBuffer;
       sample.loop = true;
+      sample.connect(main.sampleNode);
       sample.start();
     } else if (button.children[0].className.includes('fa-pause')){
       button.children[0].className = 'fa fa-play';
