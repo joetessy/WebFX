@@ -22,22 +22,22 @@ function PageHandler(main, myDelay, myTremolo, myOscilloscope, myAudio){
 
   let sample;
   this.handleSamplePlay = function(button, audioBuffer) {
-    if (button.children[0].className.includes('fa-play')){
+    if (button.className.includes('fa-play')){
       if (sample){
         sample.disconnect(main.sampleNode);
         let array = Array.from(document.querySelectorAll('.sample-item'));
         array.forEach((item) => {
-          item.children[0].className = 'fa fa-play';
+          item.className = 'sample-item fa fa-play';
         });
       }
-      button.children[0].className = 'fa fa-pause';
+      button.className = 'sample-item fa fa-pause';
       sample = main.audioContext.createBufferSource();
       sample.buffer = audioBuffer;
       sample.loop = true;
       sample.connect(main.sampleNode);
       sample.start();
-    } else if (button.children[0].className.includes('fa-pause')){
-      button.children[0].className = 'fa fa-play';
+    } else if (button.className.includes('fa-pause')){
+      button.className = 'sample-item fa fa-play';
       sample.stop();
     }
   };

@@ -487,10 +487,12 @@ body {
 }
 
 .fa-play{
-  padding-left: 2.5px;
+  padding-left: 3px;
+
 }
 
 .fa-pause{
+  padding-left: 1px;
 }
 
 input{
