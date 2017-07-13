@@ -20,7 +20,6 @@ function Tremolo(main){
     let maxGain = 1;
     let val = 0;
     let direction;
-    let that = this;
     tremoloInterval = setInterval(function(){
       if (val >= maxGain){
         direction = 'down';

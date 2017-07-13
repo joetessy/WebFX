@@ -392,7 +392,6 @@ function Tremolo(main){
     let maxGain = 1;
     let val = 0;
     let direction;
-    let that = this;
     tremoloInterval = setInterval(function(){
       if (val >= maxGain){
         direction = 'down';
@@ -431,6 +430,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 >>>>>>> c006740... refactor pagehandler
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__master_class_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__page_handler_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__sliders_js__ = __webpack_require__(8);
 
 
 
@@ -439,14 +439,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-let main = new __WEBPACK_IMPORTED_MODULE_5__master_class_js__["a" /* default */]();
 
-let myDelay = new __WEBPACK_IMPORTED_MODULE_0__delay_effect_js__["a" /* default */](main);
-let myOscilloscope = new __WEBPACK_IMPORTED_MODULE_1__oscilloscope_effect_js__["a" /* default */](main);
-let myTremolo = new __WEBPACK_IMPORTED_MODULE_4__tremolo_effect_js__["a" /* default */](main);
-let myAudio = new __WEBPACK_IMPORTED_MODULE_2__audio_handler_js__["a" /* default */](main);
-// let myRecorder = new AudioRecorder(main);
-let myPageHandler = new __WEBPACK_IMPORTED_MODULE_6__page_handler_js__["a" /* default */](main, myDelay, myTremolo, myOscilloscope, myAudio);
+const main = new __WEBPACK_IMPORTED_MODULE_5__master_class_js__["a" /* default */]();
+const myAudio = new __WEBPACK_IMPORTED_MODULE_2__audio_handler_js__["a" /* default */](main);
+const myDelay = new __WEBPACK_IMPORTED_MODULE_0__delay_effect_js__["a" /* default */](main);
+const myTremolo = new __WEBPACK_IMPORTED_MODULE_4__tremolo_effect_js__["a" /* default */](main);
+const myOscilloscope = new __WEBPACK_IMPORTED_MODULE_1__oscilloscope_effect_js__["a" /* default */](main);
+// const myRecorder = new AudioRecorder(main);
+const myPageHandler = new __WEBPACK_IMPORTED_MODULE_6__page_handler_js__["a" /* default */](main, myDelay, myTremolo, myOscilloscope, myAudio);
+const mySliders = new __WEBPACK_IMPORTED_MODULE_7__sliders_js__["a" /* default */](main, myAudio, myDelay, myTremolo);
 
 let url1 = 'https://s3.amazonaws.com/webfx/sample1.mp3';
 let url2 = 'https://s3.amazonaws.com/webfx/sample2.mp3';
@@ -487,88 +488,98 @@ play2Button.onclick = () => myPageHandler.handleSamplePlay(play2Button, audio2Bu
 play3Button.onclick = () => myPageHandler.handleSamplePlay(play3Button, audio3Buffer);
 // $('.recorder')[0].onclick = () => myRecorder.handleRecord();
 
-$('#volume').slider({
-  orientation: 'vertical',
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 50,
-  animate: true,
-  slide: function(event, ui){
-    if (main.volumeNode)
-    myAudio.setVolume((ui.value) / 100);
-  }
-});
 
-$('#delay-time').slider({
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 50,
-  animate: true,
-  slide: function(event, ui){
-    if (main.volumeNode)
-    myDelay.setDelayTime((ui.value) / 100 * .5);
-  }
-});
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-$('#delay-intensity').slider({
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 0,
-  animate: true,
-  slide: function(event, ui){
-    if (main.volumeNode)
-    myDelay.setDelayIntensity((ui.value) / 100 * .8);
-  }
-});
+"use strict";
+function Sliders(main, myAudio, myDelay, myTremolo){
+  $('#volume').slider({
+    orientation: 'vertical',
+    range: 'min',
+    min: 0,
+    max: 100,
+    value: 50,
+    animate: true,
+    slide: function(event, ui){
+      if (main.volumeNode)
+      myAudio.setVolume((ui.value) / 100);
+    }
+  });
 
-$('#delay-filter').slider({
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 100,
-  animate: true,
-  slide: function(event, ui){
-    if (main.volumeNode)
-    myDelay.setDelayFilter(ui.value * 100);
-  }
-});
+  $('#delay-time').slider({
+    range: 'min',
+    min: 0,
+    max: 100,
+    value: 50,
+    animate: true,
+    slide: function(event, ui){
+      if (main.volumeNode)
+      myDelay.setDelayTime((ui.value) / 100 * .5);
+    }
+  });
 
-$('#delay-bypass').slider({
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 50,
-  animate: true,
-  slide: function(event, ui){
-    if (main.volumeNode)
-    myDelay.setDelayBypass(ui.value / 100);
-  }
-});
+  $('#delay-intensity').slider({
+    range: 'min',
+    min: 0,
+    max: 100,
+    value: 0,
+    animate: true,
+    slide: function(event, ui){
+      if (main.volumeNode)
+      myDelay.setDelayIntensity((ui.value) / 100 * .8);
+    }
+  });
 
-$('#tremolo-depth').slider({
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 0,
-  animate: true,
-  slide: function(event, ui){
-    myTremolo.setTremolo((ui.value / 100), $('#tremolo-speed').slider('option', 'value'));
-  }
-});
+  $('#delay-filter').slider({
+    range: 'min',
+    min: 0,
+    max: 100,
+    value: 100,
+    animate: true,
+    slide: function(event, ui){
+      if (main.volumeNode)
+      myDelay.setDelayFilter(ui.value * 100);
+    }
+  });
 
-$('#tremolo-speed').slider({
-  range: 'min',
-  min: 0.5,
-  max: 20,
-  value: 10,
-  animate: true,
-  slide: function(event, ui){
-    myTremolo.setTremolo( ($('#tremolo-depth').slider('option', 'value') / 100), ui.value);
-  }
-});
+  $('#delay-bypass').slider({
+    range: 'min',
+    min: 0,
+    max: 100,
+    value: 50,
+    animate: true,
+    slide: function(event, ui){
+      if (main.volumeNode)
+      myDelay.setDelayBypass(ui.value / 100);
+    }
+  });
+
+  $('#tremolo-depth').slider({
+    range: 'min',
+    min: 0,
+    max: 100,
+    value: 0,
+    animate: true,
+    slide: function(event, ui){
+      myTremolo.setTremolo((ui.value / 100), $('#tremolo-speed').slider('option', 'value'));
+    }
+  });
+
+  $('#tremolo-speed').slider({
+    range: 'min',
+    min: 0.5,
+    max: 20,
+    value: 10,
+    animate: true,
+    slide: function(event, ui){
+      myTremolo.setTremolo( ($('#tremolo-depth').slider('option', 'value') / 100), ui.value);
+    }
+  });
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Sliders);
 
 
 /***/ })

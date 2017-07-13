@@ -5,15 +5,16 @@ import AudioRecorder from './audio_recorder.js';
 import Tremolo from './tremolo_effect.js';
 import MasterClass from './master_class.js';
 import PageHandler from './page_handler.js';
+import Sliders from './sliders.js';
 
-let main = new MasterClass();
-
-let myDelay = new Delay(main);
-let myOscilloscope = new Oscilloscope(main);
-let myTremolo = new Tremolo(main);
-let myAudio = new AudioHandler(main);
-// let myRecorder = new AudioRecorder(main);
-let myPageHandler = new PageHandler(main, myDelay, myTremolo, myOscilloscope, myAudio);
+const main = new MasterClass();
+const myAudio = new AudioHandler(main);
+const myDelay = new Delay(main);
+const myTremolo = new Tremolo(main);
+const myOscilloscope = new Oscilloscope(main);
+// const myRecorder = new AudioRecorder(main);
+const myPageHandler = new PageHandler(main, myDelay, myTremolo, myOscilloscope, myAudio);
+const mySliders = new Sliders(main, myAudio, myDelay, myTremolo);
 
 let url1 = 'https://s3.amazonaws.com/webfx/sample1.mp3';
 let url2 = 'https://s3.amazonaws.com/webfx/sample2.mp3';
@@ -53,86 +54,3 @@ play1Button.onclick = () => myPageHandler.handleSamplePlay(play1Button, audio1Bu
 play2Button.onclick = () => myPageHandler.handleSamplePlay(play2Button, audio2Buffer);
 play3Button.onclick = () => myPageHandler.handleSamplePlay(play3Button, audio3Buffer);
 // $('.recorder')[0].onclick = () => myRecorder.handleRecord();
-
-$('#volume').slider({
-  orientation: 'vertical',
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 50,
-  animate: true,
-  slide: function(event, ui){
-    if (main.volumeNode)
-    myAudio.setVolume((ui.value) / 100);
-  }
-});
-
-$('#delay-time').slider({
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 50,
-  animate: true,
-  slide: function(event, ui){
-    if (main.volumeNode)
-    myDelay.setDelayTime((ui.value) / 100 * .5);
-  }
-});
-
-$('#delay-intensity').slider({
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 0,
-  animate: true,
-  slide: function(event, ui){
-    if (main.volumeNode)
-    myDelay.setDelayIntensity((ui.value) / 100 * .8);
-  }
-});
-
-$('#delay-filter').slider({
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 100,
-  animate: true,
-  slide: function(event, ui){
-    if (main.volumeNode)
-    myDelay.setDelayFilter(ui.value * 100);
-  }
-});
-
-$('#delay-bypass').slider({
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 50,
-  animate: true,
-  slide: function(event, ui){
-    if (main.volumeNode)
-    myDelay.setDelayBypass(ui.value / 100);
-  }
-});
-
-$('#tremolo-depth').slider({
-  range: 'min',
-  min: 0,
-  max: 100,
-  value: 0,
-  animate: true,
-  slide: function(event, ui){
-    myTremolo.setTremolo((ui.value / 100), $('#tremolo-speed').slider('option', 'value'));
-  }
-});
-
-$('#tremolo-speed').slider({
-  range: 'min',
-  min: 0.5,
-  max: 20,
-  value: 10,
-  animate: true,
-  slide: function(event, ui){
-    myTremolo.setTremolo( ($('#tremolo-depth').slider('option', 'value') / 100), ui.value);
-  }
-});

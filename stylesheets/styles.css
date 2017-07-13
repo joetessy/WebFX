@@ -148,7 +148,7 @@ header {
 
 .controls-container{
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .user-controls ul {
