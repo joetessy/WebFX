@@ -11,9 +11,9 @@ let main = new MasterClass();
 let myDelay = new Delay(main);
 let myOscilloscope = new Oscilloscope(main);
 let myTremolo = new Tremolo(main);
-let myAudio = new AudioHandler(main, myDelay);
-let myRecorder = new AudioRecorder(main);
-let myPageHandler = new PageHandler(main, myDelay, myTremolo, myOscilloscope);
+let myAudio = new AudioHandler(main);
+// let myRecorder = new AudioRecorder(main);
+let myPageHandler = new PageHandler(main, myDelay, myTremolo, myOscilloscope, myAudio);
 
 let url1 = 'https://s3.amazonaws.com/webfx/sample1.mp3';
 let url2 = 'https://s3.amazonaws.com/webfx/sample2.mp3';
@@ -40,19 +40,19 @@ window.fetch('https://s3.amazonaws.com/webfx/sample3.mp3')
 let onOff = document.querySelector('#on-off');
 let delayOnOff = document.querySelector('#delay-on-off');
 let tremoloOnOff = document.querySelector('#tremolo-on-off');
+let inputOnOff = document.querySelector('#input-on-off');
 let play1Button = document.querySelector('#play1');
 let play2Button = document.querySelector('#play2');
 let play3Button = document.querySelector('#play3');
 
+inputOnOff.onclick = () => myPageHandler.handleInput(inputOnOff, onOff, delayOnOff);
 onOff.onclick = () => myPageHandler.startStopAudio(onOff);
 delayOnOff.onclick = () => myPageHandler.handleDelay(delayOnOff);
 tremoloOnOff.onclick = () => myPageHandler.handleTremolo(tremoloOnOff);
 play1Button.onclick = () => myPageHandler.handleSamplePlay(play1Button, audio1Buffer);
 play2Button.onclick = () => myPageHandler.handleSamplePlay(play2Button, audio2Buffer);
 play3Button.onclick = () => myPageHandler.handleSamplePlay(play3Button, audio3Buffer);
-$('input')[0].onclick = () => myAudio.initAudio();
-$('input')[1].onclick = () => myAudio.cancelAudio(onOff, delayOnOff);
-$('.recorder')[0].onclick = () => myRecorder.handleRecord();
+// $('.recorder')[0].onclick = () => myRecorder.handleRecord();
 
 $('#volume').slider({
   orientation: 'vertical',

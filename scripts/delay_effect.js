@@ -7,6 +7,14 @@ function Delay(main){
     this.main.delayEffect.connect(this.main.filter);
     this.main.filter.connect(this.main.bypassNode);
     this.main.bypassNode.connect(this.main.mixNode);
+    this.main.bypassNode.gain.value = 0.5;
+    if (streamSource){
+      streamSource.connect(this.main.delayEffect);
+    }
+  };
+
+  this.removeDelay = function(){
+    this.main.bypassNode.gain.value = 0;
   };
 
   this.setDelayTime = function(interval){

@@ -8,6 +8,12 @@ function Tremolo(main){
       this.setTremolo(0, 20);
     }
   };
+
+  this.removeTremolo = function(){
+    this.main.mixNode.disconnect(this.main.tremoloNode);
+    this.main.mixNode.connect(this.main.volumeNode);
+  };
+
   var tremoloInterval;
   this.setTremolo = function(minGain, speed = 20){
     if (tremoloInterval) clearInterval(tremoloInterval);

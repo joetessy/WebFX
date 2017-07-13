@@ -302,7 +302,7 @@ body {
   align-items: center;
 }
 
-.audio-on, .delay-on, .tremolo-on{
+.on{
   height: 50px;
   width: 50px;
   border-radius: 50%;
@@ -313,7 +313,7 @@ body {
   justify-content: center;
 }
 
-.audio-off, .delay-off, .tremolo-off {
+.off {
   height: 50px;
   width: 50px;
   border-radius: 50%;
@@ -324,8 +324,9 @@ body {
   justify-content: center;
 }
 
-#on-off, #delay-on-off, #tremolo-on-off{
+#on-off, #delay-on-off, #tremolo-on-off, #input-on-off{
   cursor: pointer;
+  font-size: 10px;
 }
 
 .js-delay {

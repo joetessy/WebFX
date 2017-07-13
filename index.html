@@ -80,14 +80,8 @@
           <div class='user-controls'>
             <div class='controls-container'>
               <div class='select-input'>
-                <li>
-                  <input type="radio"
-                  name="input"
-                  value="off"> <h3>Input On</h3>
-                </li>
-                <li>
-                  <input type="radio" checked name="input" value="on"> <h3>Input Off</h3><br>
-                </li>
+              <h2>Input</h2>
+                <div id='input-on-off' class='off'>ON/OFF</div>
               </div>
               <div class='samples'>
                 <ul>
@@ -133,7 +127,7 @@
         <h2> Volume </h2>
         <div class='volume-controls'>
           <div class='volume-module-item'/>
-            <div id='on-off' class='audio-off'>ON/OFF</div>
+            <div id='on-off' class='off'>ON/OFF</div>
           </div>
           <div class='volume-module-item'>
             <canvas class='waveform'></canvas>
@@ -166,7 +160,7 @@
           <h2> Delay </h2>
           <div class='delay-controls'>
             <div class='delay-on-container'/>
-              <div id='delay-on-off' class='delay-off'>ON/OFF</div>
+              <div id='delay-on-off' class='off'>ON/OFF</div>
             </div>
             <div class='delay-speed-slider-container'>
               <h3> Speed </h3>
@@ -203,7 +197,7 @@
         <h2> Tremolo </h2>
         <div class='tremolo-controls'>
           <div class='tremolo-on-container'/>
-            <div id='tremolo-on-off' class='tremolo-off'>ON/OFF</div>
+            <div id='tremolo-on-off' class='off'>ON/OFF</div>
           </div>
 
           <div class='tremolo-depth-slider-container'>

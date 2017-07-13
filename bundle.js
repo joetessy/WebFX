@@ -71,10 +71,9 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-function AudioHandler(main, myDelay){
+function AudioHandler(main){
   this.main = main;
-  this.myDelay = myDelay;
-  this.initAudio = function(){
+  this.initAudioStream = function(){
     navigator.getUserMedia = navigator.getUserMedia
     || navigator.webkitGetUserMedia;
     navigator.getUserMedia({audio: true}, this.gotStream, didntGetStream);
@@ -84,8 +83,9 @@ function AudioHandler(main, myDelay){
   this.gotStream = function(stream){
     that.main.streamSource = that.main.audioContext.createMediaStreamSource(stream);
     that.main.streamSource.connect(that.main.mixNode);
-    that.myDelay.createDelay(that.main.streamSource);
-    that.main.bypassNode.gain.value = 0.5;
+    if (document.querySelector('#delay-on-off').className === 'on'){
+      that.main.streamSource.connect(that.main.delayEffect);
+    }
   };
 
   function didntGetStream(){
@@ -95,20 +95,33 @@ function AudioHandler(main, myDelay){
       document.querySelector('.audio-fail').className ='audio-fail';
       document.querySelector('.content').className = 'content';
     }, 2000);
+    document.querySelector('#input-on-off').className = 'off';
+    document.querySelector('#input-on-off').innerHTML = 'OFF';
   }
+
+  this.cancelAudioStream = function(){
+    if (that.main.streamSource &&
+      document.querySelector('#on-off').className ==='on'){
+        that.main.streamSource.disconnect(this.main.mixNode);
+        that.main.streamSource.disconnect(this.main.delayEffect);
+      }
+    };
 
   this.setVolume = function(volume){
     this.main.volumeNode.gain.value = volume;
   };
 
-  this.cancelAudio = function(onOff, delayOnOff){
-    if (that.main.streamSource && onOff.className ==='audio-on'){
-      that.main.streamSource.disconnect(this.main.mixNode);
-      if (delayOnOff.className === 'delay-on'){
-        that.main.bypassNode.gain.value = 0;
-      }
-    }
+  this.startAudio = function(){
+    this.main.volumeNode.connect(this.main.volumeAnalyser);
+    this.main.mixNode.connect(this.main.volumeNode);
+    this.main.sampleNode.connect(this.main.mixNode);
+    this.main.volumeAnalyser.connect(this.main.audioContext.destination);
   };
+
+  this.stopAudio = function(){
+    this.main.volumeNode.disconnect(this.main.volumeAnalyser);
+  };
+
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (AudioHandler);
@@ -116,36 +129,35 @@ function AudioHandler(main, myDelay){
 
 /***/ }),
 /* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-function AudioRecorder(main){
-  this.main = main;
-  const recorder = document.querySelector('.recorder');
-  var rec = new Recorder(this.main.volumeNode);
-
-    this.handleRecord = function(){
-      if (recorder.className.includes('record-off')){
-        recorder.className = 'recorder record-on';
-        rec.clear();
-        rec.record();
-      } else {
-        recorder.className = 'recorder record-off';
-        rec.stop();
-        rec.getBuffers( this.gotBuffers );
-      }
-    };
-
-    function doneEncoding( blob ) {
-      Recorder.setupDownload( blob, "myRecording.wav" );
-    }
-
-    this.gotBuffers = function ( buffers ) {
-      rec.exportWAV(doneEncoding );
-    };
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (AudioRecorder);
+// function AudioRecorder(main){
+//   this.main = main;
+//   const recorder = document.querySelector('.recorder');
+//   var rec = new Recorder(this.main.volumeNode);
+//
+//     this.handleRecord = function(){
+//       if (recorder.className.includes('record-off')){
+//         recorder.className = 'recorder record-on';
+//         rec.clear();
+//         rec.record();
+//       } else {
+//         recorder.className = 'recorder record-off';
+//         rec.stop();
+//         rec.getBuffers( this.gotBuffers );
+//       }
+//     };
+//
+//     function doneEncoding( blob ) {
+//       Recorder.setupDownload( blob, "myRecording.wav" );
+//     }
+//
+//     this.gotBuffers = function ( buffers ) {
+//       rec.exportWAV(doneEncoding );
+//     };
+// }
+//
+// export default AudioRecorder;
 
 
 /***/ }),
@@ -162,6 +174,14 @@ function Delay(main){
     this.main.delayEffect.connect(this.main.filter);
     this.main.filter.connect(this.main.bypassNode);
     this.main.bypassNode.connect(this.main.mixNode);
+    this.main.bypassNode.gain.value = 0.5;
+    if (streamSource){
+      streamSource.connect(this.main.delayEffect);
+    }
+  };
+
+  this.removeDelay = function(){
+    this.main.bypassNode.gain.value = 0;
   };
 
   this.setDelayTime = function(interval){
@@ -202,11 +222,12 @@ function MasterClass(){
   this.bypassNode = this.audioContext.createGain();
   this.filter = this.audioContext.createBiquadFilter();
   this.streamSource = null;
-  this.volumeNode.gain.value = 0;
+
+  this.mixNode.gain.value = 1;
+  this.volumeNode.gain.value = .5;
   this.delayEffect.delayTime.value = 0.25;
   this.feedback.gain.value = 0;
   this.filter.frequency.value = 10000;
-  this.bypassNode.gain.value = 0.5;
   this.tremoloNode.gain.value = 1;
 }
 
@@ -271,17 +292,33 @@ function Oscilloscope(main){
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-function PageHandler(main, myDelay, myTremolo, myOscilloscope){
-  this.main = main;
-  this.myDelay = myDelay;
-  this.myTremolo = myTremolo;
-  this.myOscilloscope = myOscilloscope;
+function PageHandler(main, myDelay, myTremolo, myOscilloscope, myAudio){
+
+  function turnOn(button){
+    button.className = 'on';
+    button.innerHTML = 'ON';
+  }
+
+  function turnOff(button){
+    button.className = 'off';
+    button.innerHTML = 'OFF';
+  }
+
+  this.handleInput = function(button){
+    if (button.className === ('off')){
+      turnOn(button);
+      myAudio.initAudioStream();
+    } else {
+      turnOff(button);
+      myAudio.cancelAudioStream();
+    }
+  };
 
   let sample;
   this.handleSamplePlay = function(button, audioBuffer) {
     if (button.children[0].className.includes('fa-play')){
       if (sample){
-        sample.disconnect(this.main.sampleNode);
+        sample.disconnect(main.sampleNode);
         let array = Array.from(document.querySelectorAll('.sample-item'));
         array.forEach((item) => {
           item.children[0].className = 'fa fa-play';
@@ -300,50 +337,33 @@ function PageHandler(main, myDelay, myTremolo, myOscilloscope){
   };
 
   this.startStopAudio = function(button){
-    if (button.className ==='audio-off') {
-      button.className = 'audio-on';
-      main.volumeNode.connect(main.volumeAnalyser);
-      main.mixNode.connect(main.volumeNode);
-      main.mixNode.gain.value = 1;
-      main.volumeNode.gain.value = .5;
-      main.sampleNode.connect(main.mixNode);
-      main.volumeAnalyser.connect(main.audioContext.destination);
-      button.innerHTML='ON';
+    if (button.className ==='off') {
+      turnOn(button);
+      myAudio.startAudio();
       myOscilloscope.visualize();
     } else {
-      button.className = 'audio-off';
-      main.volumeNode.disconnect(main.volumeAnalyser);
-      main.volumeNode.gain.value = 0;
-      button.innerHTML='OFF';
+      turnOff(button);
+      myAudio.stopAudio();
     }
   };
 
   this.handleDelay = function(button){
-    if (button.className === 'delay-off'){
-      button.className = 'delay-on';
-      button.innerHTML = 'ON';
-      myDelay.createDelay();
-      main.bypassNode.gain.value = 0.5;
-      if (main.streamSource){
-        main.streamSource.connect(main.delayEffect);
-      }
+    if (button.className === 'off'){
+      turnOn(button);
+      myDelay.createDelay(main.streamSource);
     } else {
-      button.className = 'delay-off';
-      button.innerHTML = 'OFF';
-      main.bypassNode.gain.value = 0;
+      turnOff(button);
+      myDelay.removeDelay();
     }
   };
 
   this.handleTremolo = function(button){
-    if (button.className === 'tremolo-off'){
-      button.className = 'tremolo-on';
-      button.innerHTML = 'ON';
+    if (button.className === 'off'){
+      turnOn(button);
       myTremolo.createTremolo();
     } else {
-      button.className = 'tremolo-off';
-      button.innerHTML = 'OFF';
-      main.mixNode.disconnect(main.tremoloNode);
-      main.mixNode.connect(main.volumeNode);
+      turnOff(button);
+      myTremolo.removeTremolo();
     }
   };
 }
@@ -367,6 +387,12 @@ function Tremolo(main){
       this.setTremolo(0, 20);
     }
   };
+
+  this.removeTremolo = function(){
+    this.main.mixNode.disconnect(this.main.tremoloNode);
+    this.main.mixNode.connect(this.main.volumeNode);
+  };
+
   var tremoloInterval;
   this.setTremolo = function(minGain, speed = 20){
     if (tremoloInterval) clearInterval(tremoloInterval);
@@ -404,7 +430,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__oscilloscope_effect_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__audio_handler_js__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__ = __webpack_require__(1);
+<<<<<<< HEAD
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tremolo_effect_js__ = __webpack_require__(7);
+=======
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tremolo_effect_js__ = __webpack_require__(6);
+>>>>>>> c006740... refactor pagehandler
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__master_class_js__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__page_handler_js__ = __webpack_require__(5);
 
@@ -420,9 +451,9 @@ let main = new __WEBPACK_IMPORTED_MODULE_5__master_class_js__["a" /* default */]
 let myDelay = new __WEBPACK_IMPORTED_MODULE_0__delay_effect_js__["a" /* default */](main);
 let myOscilloscope = new __WEBPACK_IMPORTED_MODULE_1__oscilloscope_effect_js__["a" /* default */](main);
 let myTremolo = new __WEBPACK_IMPORTED_MODULE_4__tremolo_effect_js__["a" /* default */](main);
-let myAudio = new __WEBPACK_IMPORTED_MODULE_2__audio_handler_js__["a" /* default */](main, myDelay);
-let myRecorder = new __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__["a" /* default */](main);
-let myPageHandler = new __WEBPACK_IMPORTED_MODULE_6__page_handler_js__["a" /* default */](main, myDelay, myTremolo, myOscilloscope);
+let myAudio = new __WEBPACK_IMPORTED_MODULE_2__audio_handler_js__["a" /* default */](main);
+// let myRecorder = new AudioRecorder(main);
+let myPageHandler = new __WEBPACK_IMPORTED_MODULE_6__page_handler_js__["a" /* default */](main, myDelay, myTremolo, myOscilloscope, myAudio);
 
 let url1 = 'https://s3.amazonaws.com/webfx/sample1.mp3';
 let url2 = 'https://s3.amazonaws.com/webfx/sample2.mp3';
@@ -449,19 +480,19 @@ window.fetch('https://s3.amazonaws.com/webfx/sample3.mp3')
 let onOff = document.querySelector('#on-off');
 let delayOnOff = document.querySelector('#delay-on-off');
 let tremoloOnOff = document.querySelector('#tremolo-on-off');
+let inputOnOff = document.querySelector('#input-on-off');
 let play1Button = document.querySelector('#play1');
 let play2Button = document.querySelector('#play2');
 let play3Button = document.querySelector('#play3');
 
+inputOnOff.onclick = () => myPageHandler.handleInput(inputOnOff, onOff, delayOnOff);
 onOff.onclick = () => myPageHandler.startStopAudio(onOff);
 delayOnOff.onclick = () => myPageHandler.handleDelay(delayOnOff);
 tremoloOnOff.onclick = () => myPageHandler.handleTremolo(tremoloOnOff);
 play1Button.onclick = () => myPageHandler.handleSamplePlay(play1Button, audio1Buffer);
 play2Button.onclick = () => myPageHandler.handleSamplePlay(play2Button, audio2Buffer);
 play3Button.onclick = () => myPageHandler.handleSamplePlay(play3Button, audio3Buffer);
-$('input')[0].onclick = () => myAudio.initAudio();
-$('input')[1].onclick = () => myAudio.cancelAudio(onOff, delayOnOff);
-$('.recorder')[0].onclick = () => myRecorder.handleRecord();
+// $('.recorder')[0].onclick = () => myRecorder.handleRecord();
 
 $('#volume').slider({
   orientation: 'vertical',
