@@ -126,9 +126,6 @@ header {
   text-align: center;
 }
 
-.select-input{
-  margin: 0 auto;
-}
 
 .select-input li {
   padding: 10px;
@@ -136,7 +133,7 @@ header {
 
 .instructions li {
   padding: 3px 0;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .select-input li,
@@ -149,11 +146,27 @@ header {
 .controls-container{
   display: flex;
   align-items: center;
+  justify-content: space-around;
+  padding: 0px 35px;
+  box-sizing: border-box;
 }
 
 .user-controls ul {
   margin: 0;
   padding: 0;
+}
+
+.user-controls {
+  width: 260px;
+  background-color: #4BB3FD;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 10px 15px;
+  color: black;
+  box-shadow: -2px 3px 11px black;
+  font-size: 10px;
+  margin: 10px 0;
+  position: relative;
 }
 
 input[type='radio']{
@@ -186,6 +199,7 @@ body {
   display: flex;
   flex-direction: column;
   width: 40%;
+  justify-content: flex-start;
   align-items: center;
   height: 100%;
 }
@@ -476,8 +490,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto;
-
 }
 
 
@@ -487,12 +499,12 @@ body {
 }
 
 .fa-play{
-  padding-left: 3px;
+  padding-left: 2px;
 
 }
 
 .fa-pause{
-  padding-left: 1px;
+  padding-left: 0px;
 }
 
 input{
@@ -542,14 +554,16 @@ p {
 .volume-instructions > li,
 .delay-instructions > li,
 .tremolo-instructions > li,
-.record-instructions > li {
+.record-instructions > li,
+.input-instructions > li{
   padding-bottom: 10px;
 }
 
 .volume-question:hover + .volume-instructions,
 .delay-question:hover + .delay-instructions,
 .tremolo-question:hover + .tremolo-instructions,
-.record-question:hover + .record-instructions{
+.record-question:hover + .record-instructions,
+.input-question:hover + .input-instructions{
   visibility: visible;
   opacity: 1;
 }
@@ -560,7 +574,8 @@ p {
 
 .volume-instructions,
 .delay-instructions,
-.tremolo-instructions{
+.tremolo-instructions,
+.input-instructions{
   z-index:24;
   position: absolute;
   visibility: hidden;

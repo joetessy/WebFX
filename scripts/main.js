@@ -12,7 +12,7 @@ const myAudio = new AudioHandler(main);
 const myDelay = new Delay(main);
 const myTremolo = new Tremolo(main);
 const myOscilloscope = new Oscilloscope(main);
-// const myRecorder = new AudioRecorder(main);
+const myRecorder = new AudioRecorder(main);
 const myPageHandler = new PageHandler(main, myDelay, myTremolo, myOscilloscope, myAudio);
 const mySliders = new Sliders(main, myAudio, myDelay, myTremolo);
 
@@ -54,4 +54,4 @@ tremoloOnOff.onclick = () => myPageHandler.handleTremolo(tremoloOnOff);
 play1Button.onclick = () => myPageHandler.handleSample(play1Button, audio1Buffer);
 play2Button.onclick = () => myPageHandler.handleSample(play2Button, audio2Buffer);
 play3Button.onclick = () => myPageHandler.handleSample(play3Button, audio3Buffer);
-// $('.recorder')[0].onclick = () => myRecorder.handleRecord();
+$('.recorder')[0].onclick = () => myRecorder.handleRecord();
