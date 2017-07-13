@@ -297,6 +297,21 @@ function PageHandler(main, myDelay, myTremolo, myOscilloscope, myAudio){
     button.innerHTML = 'OFF';
   }
 
+  function disconnectSample(sample){
+    sample.disconnect(main.sampleNode);
+    Array.from(document.querySelectorAll('.sample-item'))
+    .forEach((item) => {item.className = 'sample-item fa fa-play';});
+  }
+
+  function triggerSample(button, audioBuffer){
+    button.className = 'sample-item fa fa-pause';
+    sample = main.audioContext.createBufferSource();
+    sample.buffer = audioBuffer;
+    sample.loop = true;
+    sample.connect(main.sampleNode);
+    sample.start();
+  }
+
   this.handleInput = function(button){
     if (button.className === ('off')){
       turnOn(button);
@@ -308,24 +323,15 @@ function PageHandler(main, myDelay, myTremolo, myOscilloscope, myAudio){
   };
 
   let sample;
-  this.handleSamplePlay = function(button, audioBuffer) {
+  this.handleSample = function(button, audioBuffer) {
     if (button.className.includes('fa-play')){
       if (sample){
-        sample.disconnect(main.sampleNode);
-        let array = Array.from(document.querySelectorAll('.sample-item'));
-        array.forEach((item) => {
-          item.className = 'sample-item fa fa-play';
-        });
+        sample.connect(main.sampleNode);
+        disconnectSample(sample);
       }
-      button.className = 'sample-item fa fa-pause';
-      sample = main.audioContext.createBufferSource();
-      sample.buffer = audioBuffer;
-      sample.loop = true;
-      sample.connect(main.sampleNode);
-      sample.start();
+      triggerSample(button, audioBuffer);
     } else if (button.className.includes('fa-pause')){
-      button.className = 'sample-item fa fa-play';
-      sample.stop();
+      disconnectSample(sample);
     }
   };
 
@@ -479,13 +485,14 @@ let play1Button = document.querySelector('#play1');
 let play2Button = document.querySelector('#play2');
 let play3Button = document.querySelector('#play3');
 
-inputOnOff.onclick = () => myPageHandler.handleInput(inputOnOff, onOff, delayOnOff);
+inputOnOff.onclick = () => myPageHandler.handleInput(inputOnOff);
 onOff.onclick = () => myPageHandler.startStopAudio(onOff);
 delayOnOff.onclick = () => myPageHandler.handleDelay(delayOnOff);
 tremoloOnOff.onclick = () => myPageHandler.handleTremolo(tremoloOnOff);
-play1Button.onclick = () => myPageHandler.handleSamplePlay(play1Button, audio1Buffer);
-play2Button.onclick = () => myPageHandler.handleSamplePlay(play2Button, audio2Buffer);
-play3Button.onclick = () => myPageHandler.handleSamplePlay(play3Button, audio3Buffer);
+
+play1Button.onclick = () => myPageHandler.handleSample(play1Button, audio1Buffer);
+play2Button.onclick = () => myPageHandler.handleSample(play2Button, audio2Buffer);
+play3Button.onclick = () => myPageHandler.handleSample(play3Button, audio3Buffer);
 // $('.recorder')[0].onclick = () => myRecorder.handleRecord();
 
 
