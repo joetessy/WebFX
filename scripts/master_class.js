@@ -10,8 +10,8 @@ function MasterClass(){
   this.feedback = this.audioContext.createGain();
   this.bypassNode = this.audioContext.createGain();
   this.filter = this.audioContext.createBiquadFilter();
-  this.streamSource = null;
 
+  this.streamSource = null;
   this.mixNode.gain.value = 1;
   this.volumeNode.gain.value = .5;
   this.delayEffect.delayTime.value = 0.25;

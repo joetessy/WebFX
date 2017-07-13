@@ -72,19 +72,17 @@
 
 "use strict";
 function AudioHandler(main){
-  this.main = main;
   this.initAudioStream = function(){
     navigator.getUserMedia = navigator.getUserMedia
     || navigator.webkitGetUserMedia;
     navigator.getUserMedia({audio: true}, this.gotStream, didntGetStream);
   };
 
-  let that = this;
   this.gotStream = function(stream){
-    that.main.streamSource = that.main.audioContext.createMediaStreamSource(stream);
-    that.main.streamSource.connect(that.main.mixNode);
+    main.streamSource = main.audioContext.createMediaStreamSource(stream);
+    main.streamSource.connect(main.mixNode);
     if (document.querySelector('#delay-on-off').className === 'on'){
-      that.main.streamSource.connect(that.main.delayEffect);
+      main.streamSource.connect(main.delayEffect);
     }
   };
 
@@ -100,26 +98,26 @@ function AudioHandler(main){
   }
 
   this.cancelAudioStream = function(){
-    if (that.main.streamSource &&
+    if (main.streamSource &&
       document.querySelector('#on-off').className ==='on'){
-        that.main.streamSource.disconnect(this.main.mixNode);
-        that.main.streamSource.disconnect(this.main.delayEffect);
+        main.streamSource.disconnect(main.mixNode);
+        main.streamSource.disconnect(main.delayEffect);
       }
     };
 
   this.setVolume = function(volume){
-    this.main.volumeNode.gain.value = volume;
+    main.volumeNode.gain.value = volume;
   };
 
   this.startAudio = function(){
-    this.main.volumeNode.connect(this.main.volumeAnalyser);
-    this.main.mixNode.connect(this.main.volumeNode);
-    this.main.sampleNode.connect(this.main.mixNode);
-    this.main.volumeAnalyser.connect(this.main.audioContext.destination);
+    main.volumeNode.connect(main.volumeAnalyser);
+    main.mixNode.connect(main.volumeNode);
+    main.sampleNode.connect(main.mixNode);
+    main.volumeAnalyser.connect(main.audioContext.destination);
   };
 
   this.stopAudio = function(){
-    this.main.volumeNode.disconnect(this.main.volumeAnalyser);
+    main.volumeNode.disconnect(main.volumeAnalyser);
   };
 
 }
@@ -132,9 +130,8 @@ function AudioHandler(main){
 /***/ (function(module, exports) {
 
 // function AudioRecorder(main){
-//   this.main = main;
 //   const recorder = document.querySelector('.recorder');
-//   var rec = new Recorder(this.main.volumeNode);
+//   var rec = new Recorder(main.volumeNode);
 //
 //     this.handleRecord = function(){
 //       if (recorder.className.includes('record-off')){
@@ -166,38 +163,38 @@ function AudioHandler(main){
 
 "use strict";
 function Delay(main){
-  this.main = main;
+  
   this.createDelay = function(streamSource){
-    this.main.sampleNode.connect(this.main.delayEffect);
-    this.main.delayEffect.connect(this.main.feedback);
-    this.main.feedback.connect(this.main.delayEffect);
-    this.main.delayEffect.connect(this.main.filter);
-    this.main.filter.connect(this.main.bypassNode);
-    this.main.bypassNode.connect(this.main.mixNode);
-    this.main.bypassNode.gain.value = 0.5;
+    main.sampleNode.connect(main.delayEffect);
+    main.delayEffect.connect(main.feedback);
+    main.feedback.connect(main.delayEffect);
+    main.delayEffect.connect(main.filter);
+    main.filter.connect(main.bypassNode);
+    main.bypassNode.connect(main.mixNode);
+    main.bypassNode.gain.value = 0.5;
     if (streamSource){
-      streamSource.connect(this.main.delayEffect);
+      streamSource.connect(main.delayEffect);
     }
   };
 
   this.removeDelay = function(){
-    this.main.bypassNode.gain.value = 0;
+    main.bypassNode.gain.value = 0;
   };
 
   this.setDelayTime = function(interval){
-    this.main.delayEffect.delayTime.value = interval;
+    main.delayEffect.delayTime.value = interval;
   };
 
   this.setDelayIntensity = function(intensity){
-    this.main.feedback.gain.value = intensity;
+    main.feedback.gain.value = intensity;
   };
 
   this.setDelayBypass = function(intensity){
-    this.main.bypassNode.gain.value = intensity;
+    main.bypassNode.gain.value = intensity;
   };
 
   this.setDelayFilter = function(intensity){
-    this.main.filter.frequency.value = intensity;
+    main.filter.frequency.value = intensity;
   };
 }
 
@@ -221,8 +218,8 @@ function MasterClass(){
   this.feedback = this.audioContext.createGain();
   this.bypassNode = this.audioContext.createGain();
   this.filter = this.audioContext.createBiquadFilter();
-  this.streamSource = null;
 
+  this.streamSource = null;
   this.mixNode.gain.value = 1;
   this.volumeNode.gain.value = .5;
   this.delayEffect.delayTime.value = 0.25;
@@ -239,10 +236,7 @@ function MasterClass(){
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
 function Oscilloscope(main){
-  this.main = main;
   let drawVisual;
   let canvas = document.querySelector('.waveform');
   let canvasCtx = canvas.getContext('2d');
@@ -250,14 +244,13 @@ function Oscilloscope(main){
   this.visualize = function(){
     let WIDTH = canvas.width;
     let HEIGHT = canvas.height;
-    this.main.volumeAnalyser.fftSize = 2048;
-    let bufferLength = this.main.volumeAnalyser.frequencyBinCount;
+    main.volumeAnalyser.fftSize = 2048;
+    let bufferLength = main.volumeAnalyser.frequencyBinCount;
     let dataArray = new Uint8Array(bufferLength);
     canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-    let that = this;
     function draw(){
       drawVisual = requestAnimationFrame(draw);
-      that.main.volumeAnalyser.getByteTimeDomainData(dataArray);
+      main.volumeAnalyser.getByteTimeDomainData(dataArray);
       canvasCtx.fillStyle = 'rgb(0, 0, 0)';
       canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
@@ -378,19 +371,19 @@ function PageHandler(main, myDelay, myTremolo, myOscilloscope, myAudio){
 
 "use strict";
 function Tremolo(main){
-  this.main = main;
+
   this.createTremolo = function(){
-    if (this.main.mixNode){
-      this.main.mixNode.disconnect(this.main.volumeNode);
-      this.main.mixNode.connect(this.main.tremoloNode);
-      this.main.tremoloNode.connect(this.main.volumeNode);
+    if (main.mixNode){
+      main.mixNode.disconnect(main.volumeNode);
+      main.mixNode.connect(main.tremoloNode);
+      main.tremoloNode.connect(main.volumeNode);
       this.setTremolo(0, 20);
     }
   };
 
   this.removeTremolo = function(){
-    this.main.mixNode.disconnect(this.main.tremoloNode);
-    this.main.mixNode.connect(this.main.volumeNode);
+    main.mixNode.disconnect(main.tremoloNode);
+    main.mixNode.connect(main.volumeNode);
   };
 
   var tremoloInterval;
@@ -408,10 +401,10 @@ function Tremolo(main){
       }
       if (direction === 'down'){
         val -= .1;
-        that.main.tremoloNode.gain.value = val;
+        main.tremoloNode.gain.value = val;
       } else if (direction === 'up'){
         val += .1;
-        that.main.tremoloNode.gain.value = val;
+        main.tremoloNode.gain.value = val;
       }
     }, speed);
   };

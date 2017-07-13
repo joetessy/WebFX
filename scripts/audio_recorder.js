@@ -1,7 +1,6 @@
 // function AudioRecorder(main){
-//   this.main = main;
 //   const recorder = document.querySelector('.recorder');
-//   var rec = new Recorder(this.main.volumeNode);
+//   var rec = new Recorder(main.volumeNode);
 //
 //     this.handleRecord = function(){
 //       if (recorder.className.includes('record-off')){

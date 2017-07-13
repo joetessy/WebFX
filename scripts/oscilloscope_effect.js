@@ -1,7 +1,4 @@
-
-
 function Oscilloscope(main){
-  this.main = main;
   let drawVisual;
   let canvas = document.querySelector('.waveform');
   let canvasCtx = canvas.getContext('2d');
@@ -9,14 +6,13 @@ function Oscilloscope(main){
   this.visualize = function(){
     let WIDTH = canvas.width;
     let HEIGHT = canvas.height;
-    this.main.volumeAnalyser.fftSize = 2048;
-    let bufferLength = this.main.volumeAnalyser.frequencyBinCount;
+    main.volumeAnalyser.fftSize = 2048;
+    let bufferLength = main.volumeAnalyser.frequencyBinCount;
     let dataArray = new Uint8Array(bufferLength);
     canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-    let that = this;
     function draw(){
       drawVisual = requestAnimationFrame(draw);
-      that.main.volumeAnalyser.getByteTimeDomainData(dataArray);
+      main.volumeAnalyser.getByteTimeDomainData(dataArray);
       canvasCtx.fillStyle = 'rgb(0, 0, 0)';
       canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 

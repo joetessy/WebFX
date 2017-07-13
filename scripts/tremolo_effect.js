@@ -1,17 +1,17 @@
 function Tremolo(main){
-  this.main = main;
+
   this.createTremolo = function(){
-    if (this.main.mixNode){
-      this.main.mixNode.disconnect(this.main.volumeNode);
-      this.main.mixNode.connect(this.main.tremoloNode);
-      this.main.tremoloNode.connect(this.main.volumeNode);
+    if (main.mixNode){
+      main.mixNode.disconnect(main.volumeNode);
+      main.mixNode.connect(main.tremoloNode);
+      main.tremoloNode.connect(main.volumeNode);
       this.setTremolo(0, 20);
     }
   };
 
   this.removeTremolo = function(){
-    this.main.mixNode.disconnect(this.main.tremoloNode);
-    this.main.mixNode.connect(this.main.volumeNode);
+    main.mixNode.disconnect(main.tremoloNode);
+    main.mixNode.connect(main.volumeNode);
   };
 
   var tremoloInterval;
@@ -29,10 +29,10 @@ function Tremolo(main){
       }
       if (direction === 'down'){
         val -= .1;
-        that.main.tremoloNode.gain.value = val;
+        main.tremoloNode.gain.value = val;
       } else if (direction === 'up'){
         val += .1;
-        that.main.tremoloNode.gain.value = val;
+        main.tremoloNode.gain.value = val;
       }
     }, speed);
   };

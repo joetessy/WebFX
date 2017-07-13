@@ -1,17 +1,15 @@
 function AudioHandler(main){
-  this.main = main;
   this.initAudioStream = function(){
     navigator.getUserMedia = navigator.getUserMedia
     || navigator.webkitGetUserMedia;
     navigator.getUserMedia({audio: true}, this.gotStream, didntGetStream);
   };
 
-  let that = this;
   this.gotStream = function(stream){
-    that.main.streamSource = that.main.audioContext.createMediaStreamSource(stream);
-    that.main.streamSource.connect(that.main.mixNode);
+    main.streamSource = main.audioContext.createMediaStreamSource(stream);
+    main.streamSource.connect(main.mixNode);
     if (document.querySelector('#delay-on-off').className === 'on'){
-      that.main.streamSource.connect(that.main.delayEffect);
+      main.streamSource.connect(main.delayEffect);
     }
   };
 
@@ -27,26 +25,26 @@ function AudioHandler(main){
   }
 
   this.cancelAudioStream = function(){
-    if (that.main.streamSource &&
+    if (main.streamSource &&
       document.querySelector('#on-off').className ==='on'){
-        that.main.streamSource.disconnect(this.main.mixNode);
-        that.main.streamSource.disconnect(this.main.delayEffect);
+        main.streamSource.disconnect(main.mixNode);
+        main.streamSource.disconnect(main.delayEffect);
       }
     };
 
   this.setVolume = function(volume){
-    this.main.volumeNode.gain.value = volume;
+    main.volumeNode.gain.value = volume;
   };
 
   this.startAudio = function(){
-    this.main.volumeNode.connect(this.main.volumeAnalyser);
-    this.main.mixNode.connect(this.main.volumeNode);
-    this.main.sampleNode.connect(this.main.mixNode);
-    this.main.volumeAnalyser.connect(this.main.audioContext.destination);
+    main.volumeNode.connect(main.volumeAnalyser);
+    main.mixNode.connect(main.volumeNode);
+    main.sampleNode.connect(main.mixNode);
+    main.volumeAnalyser.connect(main.audioContext.destination);
   };
 
   this.stopAudio = function(){
-    this.main.volumeNode.disconnect(this.main.volumeAnalyser);
+    main.volumeNode.disconnect(main.volumeAnalyser);
   };
 
 }
