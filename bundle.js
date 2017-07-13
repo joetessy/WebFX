@@ -372,8 +372,7 @@ function PageHandler(main, myDelay, myTremolo, myOscilloscope, myAudio){
 
 
 /***/ }),
-/* 6 */,
-/* 7 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
