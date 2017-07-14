@@ -1,5 +1,5 @@
 function Delay(main){
-  
+
   this.createDelay = function(streamSource){
     main.sampleNode.connect(main.delayEffect);
     main.delayEffect.connect(main.feedback);
@@ -13,8 +13,8 @@ function Delay(main){
     }
   };
 
-  this.removeDelay = function(){
-    main.bypassNode.gain.value = 0;
+  this.removeDelay = function(streamSource){
+    streamSource.disconnect(main.delayEffect);
   };
 
   this.setDelayTime = function(interval){

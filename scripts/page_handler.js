@@ -65,7 +65,7 @@ function PageHandler(main, myDelay, myTremolo, myOscilloscope, myAudio){
       myDelay.createDelay(main.streamSource);
     } else {
       turnOff(button);
-      myDelay.removeDelay();
+      myDelay.removeDelay(main.streamSource);
     }
   };
 
