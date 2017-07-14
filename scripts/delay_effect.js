@@ -14,7 +14,9 @@ function Delay(main){
   };
 
   this.removeDelay = function(streamSource){
-    streamSource.disconnect(main.delayEffect);
+    if (streamSource){
+      streamSource.disconnect(main.delayEffect);
+    }
     main.sampleNode.disconnect(main.delayEffect);
   };
 

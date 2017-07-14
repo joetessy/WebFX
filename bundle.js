@@ -127,35 +127,34 @@ function AudioHandler(main){
 
 /***/ }),
 /* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-function AudioRecorder(main){
-  const recorder = document.querySelector('.recorder');
-  var rec = new Recorder(main.volumeNode);
-
-    this.handleRecord = function(){
-      if (recorder.className.includes('record-off')){
-        recorder.className = 'recorder record-on';
-        rec.clear();
-        rec.record();
-      } else {
-        recorder.className = 'recorder record-off';
-        rec.stop();
-        rec.getBuffers( this.gotBuffers );
-      }
-    };
-
-    function doneEncoding( blob ) {
-      Recorder.setupDownload( blob, "myRecording.wav" );
-    }
-
-    this.gotBuffers = function ( buffers ) {
-      rec.exportWAV(doneEncoding );
-    };
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (AudioRecorder);
+// function AudioRecorder(main){
+//   const recorder = document.querySelector('.recorder');
+//   var rec = new Recorder(main.volumeNode);
+//
+//     this.handleRecord = function(){
+//       if (recorder.className.includes('record-off')){
+//         recorder.className = 'recorder record-on';
+//         rec.clear();
+//         rec.record();
+//       } else {
+//         recorder.className = 'recorder record-off';
+//         rec.stop();
+//         rec.getBuffers( this.gotBuffers );
+//       }
+//     };
+//
+//     function doneEncoding( blob ) {
+//       Recorder.setupDownload( blob, "myRecording.wav" );
+//     }
+//
+//     this.gotBuffers = function ( buffers ) {
+//       rec.exportWAV(doneEncoding );
+//     };
+// }
+//
+// export default AudioRecorder;
 
 
 /***/ }),
@@ -179,7 +178,9 @@ function Delay(main){
   };
 
   this.removeDelay = function(streamSource){
-    streamSource.disconnect(main.delayEffect);
+    if (streamSource){
+      streamSource.disconnect(main.delayEffect);
+    }
     main.sampleNode.disconnect(main.delayEffect);
   };
 
@@ -526,11 +527,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__);
 >>>>>>> bc62f53... Fix issue where sliders were affecting sound when effect was turned off
 =======
 >>>>>>> 3581788... renable recording for push
+=======
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__);
+>>>>>>> a34ac8e... fix delay disconnect
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tremolo_effect_js__ = __webpack_require__(7);
 =======
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__);
@@ -556,7 +561,7 @@ const myAudio = new __WEBPACK_IMPORTED_MODULE_2__audio_handler_js__["a" /* defau
 const myDelay = new __WEBPACK_IMPORTED_MODULE_0__delay_effect_js__["a" /* default */](main);
 const myTremolo = new __WEBPACK_IMPORTED_MODULE_4__tremolo_effect_js__["a" /* default */](main);
 const myOscilloscope = new __WEBPACK_IMPORTED_MODULE_1__oscilloscope_effect_js__["a" /* default */](main);
-const myRecorder = new __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__["a" /* default */](main);
+// const myRecorder = new AudioRecorder(main);
 const myPageHandler = new __WEBPACK_IMPORTED_MODULE_6__page_handler_js__["a" /* default */](main, myDelay, myTremolo, myOscilloscope, myAudio);
 const mySliders = new __WEBPACK_IMPORTED_MODULE_7__sliders_js__["a" /* default */](main, myAudio, myDelay, myTremolo);
 
@@ -598,7 +603,7 @@ tremoloOnOff.onclick = () => myPageHandler.handleTremolo(tremoloOnOff);
 play1Button.onclick = () => myPageHandler.handleSample(play1Button, audio1Buffer);
 play2Button.onclick = () => myPageHandler.handleSample(play2Button, audio2Buffer);
 play3Button.onclick = () => myPageHandler.handleSample(play3Button, audio3Buffer);
-$('.recorder')[0].onclick = () => myRecorder.handleRecord();
+// $('.recorder')[0].onclick = () => myRecorder.handleRecord();
 
 
 /***/ })
