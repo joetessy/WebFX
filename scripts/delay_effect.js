@@ -15,6 +15,7 @@ function Delay(main){
 
   this.removeDelay = function(streamSource){
     streamSource.disconnect(main.delayEffect);
+    sampleNode.disconnect(main.delayEffect);
   };
 
   this.setDelayTime = function(interval){
