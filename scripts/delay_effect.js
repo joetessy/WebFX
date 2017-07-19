@@ -8,14 +8,14 @@ function Delay(main){
     main.filter.connect(main.bypassNode);
     main.bypassNode.connect(main.mixNode);
     main.bypassNode.gain.value = 0.5;
-    if (streamSource){
-      streamSource.connect(main.delayEffect);
+    if (main.streamSource && document.querySelector('#input-on-off').className === 'on'){
+      main.streamSource.connect(main.delayEffect);
     }
   };
 
-  this.removeDelay = function(streamSource){
-    if (streamSource){
-      streamSource.disconnect(main.delayEffect);
+  this.removeDelay = function(){
+    if (document.querySelector('#input-on-off').className === 'on'){
+      main.streamSource.disconnect(main.delayEffect);
     }
     main.sampleNode.disconnect(main.delayEffect);
   };

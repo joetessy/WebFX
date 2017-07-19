@@ -28,7 +28,9 @@ function AudioHandler(main){
     if (main.streamSource &&
       document.querySelector('#on-off').className ==='on'){
         main.streamSource.disconnect(main.mixNode);
-        main.streamSource.disconnect(main.delayEffect);
+        if (document.querySelector('#delay-on-off').className === 'on' ){
+          main.streamSource.disconnect(main.delayEffect);
+        }
       }
     };
 

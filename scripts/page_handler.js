@@ -62,10 +62,10 @@ function PageHandler(main, myDelay, myTremolo, myOscilloscope, myAudio){
   this.handleDelay = function(button){
     if (button.className === 'off'){
       turnOn(button);
-      myDelay.createDelay(main.streamSource);
+      myDelay.createDelay();
     } else {
       turnOff(button);
-      myDelay.removeDelay(main.streamSource);
+      myDelay.removeDelay();
     }
   };
 

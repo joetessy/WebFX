@@ -101,7 +101,9 @@ function AudioHandler(main){
     if (main.streamSource &&
       document.querySelector('#on-off').className ==='on'){
         main.streamSource.disconnect(main.mixNode);
-        main.streamSource.disconnect(main.delayEffect);
+        if (document.querySelector('#delay-on-off').className === 'on' ){
+          main.streamSource.disconnect(main.delayEffect);
+        }
       }
     };
 
@@ -172,14 +174,14 @@ function Delay(main){
     main.filter.connect(main.bypassNode);
     main.bypassNode.connect(main.mixNode);
     main.bypassNode.gain.value = 0.5;
-    if (streamSource){
-      streamSource.connect(main.delayEffect);
+    if (main.streamSource && document.querySelector('#input-on-off').className === 'on'){
+      main.streamSource.connect(main.delayEffect);
     }
   };
 
-  this.removeDelay = function(streamSource){
-    if (streamSource){
-      streamSource.disconnect(main.delayEffect);
+  this.removeDelay = function(){
+    if (document.querySelector('#input-on-off').className === 'on'){
+      main.streamSource.disconnect(main.delayEffect);
     }
     main.sampleNode.disconnect(main.delayEffect);
   };
@@ -352,10 +354,10 @@ function PageHandler(main, myDelay, myTremolo, myOscilloscope, myAudio){
   this.handleDelay = function(button){
     if (button.className === 'off'){
       turnOn(button);
-      myDelay.createDelay(main.streamSource);
+      myDelay.createDelay();
     } else {
       turnOff(button);
-      myDelay.removeDelay(main.streamSource);
+      myDelay.removeDelay();
     }
   };
 
