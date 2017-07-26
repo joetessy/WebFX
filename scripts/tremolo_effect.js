@@ -27,10 +27,10 @@ function Tremolo(main){
         direction = 'up';
       }
       if (direction === 'down'){
-        val -= .1;
+        val -= (maxGain - minGain) * .1 ;
         main.tremoloNode.gain.value = val;
       } else if (direction === 'up'){
-        val += .1;
+        val += (maxGain - minGain) * .1;
         main.tremoloNode.gain.value = val;
       }
     }, speed);

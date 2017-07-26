@@ -157,7 +157,7 @@ function AudioRecorder(main){
     };
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (AudioRecorder);
+/* unused harmony default export */ var _unused_webpack_default_export = (AudioRecorder);
 
 
 /***/ }),
@@ -503,10 +503,10 @@ function Tremolo(main){
         direction = 'up';
       }
       if (direction === 'down'){
-        val -= .1;
+        val -= (maxGain - minGain) * .1 ;
         main.tremoloNode.gain.value = val;
       } else if (direction === 'up'){
-        val += .1;
+        val += (maxGain - minGain) * .1;
         main.tremoloNode.gain.value = val;
       }
     }, speed);
@@ -567,7 +567,7 @@ const myAudio = new __WEBPACK_IMPORTED_MODULE_2__audio_handler_js__["a" /* defau
 const myDelay = new __WEBPACK_IMPORTED_MODULE_0__delay_effect_js__["a" /* default */](main);
 const myTremolo = new __WEBPACK_IMPORTED_MODULE_4__tremolo_effect_js__["a" /* default */](main);
 const myOscilloscope = new __WEBPACK_IMPORTED_MODULE_1__oscilloscope_effect_js__["a" /* default */](main);
-const myRecorder = new __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__["a" /* default */](main);
+// const myRecorder = new AudioRecorder(main);
 const myPageHandler = new __WEBPACK_IMPORTED_MODULE_6__page_handler_js__["a" /* default */](main, myDelay, myTremolo, myOscilloscope, myAudio);
 const mySliders = new __WEBPACK_IMPORTED_MODULE_7__sliders_js__["a" /* default */](main, myAudio, myDelay, myTremolo);
 

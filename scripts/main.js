@@ -12,7 +12,7 @@ const myAudio = new AudioHandler(main);
 const myDelay = new Delay(main);
 const myTremolo = new Tremolo(main);
 const myOscilloscope = new Oscilloscope(main);
-const myRecorder = new AudioRecorder(main);
+// const myRecorder = new AudioRecorder(main);
 const myPageHandler = new PageHandler(main, myDelay, myTremolo, myOscilloscope, myAudio);
 const mySliders = new Sliders(main, myAudio, myDelay, myTremolo);
 
