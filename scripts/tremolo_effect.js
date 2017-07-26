@@ -5,7 +5,7 @@ function Tremolo(main){
       main.mixNode.disconnect(main.volumeNode);
       main.mixNode.connect(main.tremoloNode);
       main.tremoloNode.connect(main.volumeNode);
-      this.setTremolo(0, 20);
+      this.setTremolo(0, 10);
     }
   };
 
@@ -15,7 +15,7 @@ function Tremolo(main){
   };
 
   var tremoloInterval;
-  this.setTremolo = function(minGain, speed = 20){
+  this.setTremolo = function(minGain, speed = 10){
     if (tremoloInterval) clearInterval(tremoloInterval);
     let maxGain = 1;
     let val = 0;
