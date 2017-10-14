@@ -1,6 +1,6 @@
 # WebFX
 
-[WebFX](https://www.joetessy.life/WebFX "WebFX") is an interactive audio-effect app that functions as a delay & tremolo effect pedal for the guitar, microphone, or any other audio input. Users have the ability to digital alter a live analog signal or some provided samples with user controls. Finally, users have the ability to record and download the audio stream.
+[WebFX](https://www.joetessy.life/webfx "WebFX") is an interactive audio-effect app that functions as a delay & tremolo effect pedal for the guitar, microphone, or any other audio input. Users have the ability to digital alter a live analog signal or some provided samples with user controls. Finally, users have the ability to record and download the audio stream.
 
 ![alt text](./docs/webfx.png)
 
