@@ -43,13 +43,15 @@ For Delay to work, both the ```streamSource``` and ```sampleNode``` are connecte
 
 * ```bypassNode``` is then connected to the ```mixNode```. Now ```mixNode``` receives the original audio signal and sample audio (```streamSource, sampleNode```), and the audio affected by delay
 
-#### Tremelo
+#### Tremolo
 
-* ```mixNode``` is connected to ```tremoloNode```, a Web Audio ```GainNode```
+* To achieve a tremolo effect, a Low Frequency Oscillator (LFO) is connected to the gain of the volume node. The LFOs frequency and gain value determine the speed and depth of the tremolo effect
 
-* The tremolo effect is achieved by controlling the gain value of the node, oscillating between a minimum gain & max gain per a set amount of time using ```setInterval```.  
+* The tremolo effect is achieved by connecting a web audio ```Oscillator``` to a ```GainNode```. These are called ```lfo``` and ```lfoAmp```
 
-* The user controls the minimum gain and the interval time using the tremolo 'Speed' and 'Depth' sliders
+* The speed of the tremolo effect is controlled by setting the frequency of the LFO oscillator and depth is controlled by setting the LFO amp's gain value.
+
+* The user controls the frequency and amplitude of the effect using the tremolo 'Speed' and 'Depth' sliders
 
 
 #### Oscilloscope

@@ -219,11 +219,12 @@ function MasterClass(){
   this.volumeNode = this.audioContext.createGain();
   this.sampleNode = this.audioContext.createGain();
   this.volumeAnalyser = this.audioContext.createAnalyser();
-  this.tremoloNode = this.audioContext.createGain();
   this.delayEffect = this.audioContext.createDelay(0.5);
   this.feedback = this.audioContext.createGain();
   this.bypassNode = this.audioContext.createGain();
   this.filter = this.audioContext.createBiquadFilter();
+  this.lfo = this.audioContext.createOscillator();
+  this.lfoAmp = this.audioContext.createGain();
 
   this.streamSource = null;
   this.mixNode.gain.value = 1;
@@ -231,7 +232,6 @@ function MasterClass(){
   this.delayEffect.delayTime.value = 0.25;
   this.feedback.gain.value = 0;
   this.filter.frequency.value = 10000;
-  this.tremoloNode.gain.value = 1;
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (MasterClass);
@@ -392,6 +392,7 @@ function Sliders(main, myAudio, myDelay, myTremolo){
     slide: function(event, ui){
       if (main.volumeNode)
       myAudio.setVolume((ui.value) / 100);
+      console.log(ui.value / 100);
     }
   });
 
@@ -447,21 +448,22 @@ function Sliders(main, myAudio, myDelay, myTremolo){
     range: 'min',
     min: 0,
     max: 100,
-    value: 0,
+    value: 50,
     animate: true,
     slide: function(event, ui){
-      myTremolo.setTremolo((ui.value / 100), $('#tremolo-speed').slider('option', 'value'));
+      console.log(main.volumeNode.gain.value * ui.value / 200);
+      myTremolo.setTremolo((main.volumeNode.gain.value * ui.value / 200), $('#tremolo-speed').slider('option', 'value'));
     }
   });
 
   $('#tremolo-speed').slider({
     range: 'min',
-    min: 0.5,
+    min: 0,
     max: 20,
     value: 10,
     animate: true,
     slide: function(event, ui){
-      myTremolo.setTremolo( ($('#tremolo-depth').slider('option', 'value') / 100), ui.value);
+      myTremolo.setTremolo( ($('#tremolo-depth').slider('option', 'value') / 200), ui.value);
     }
   });
 }
@@ -475,41 +477,26 @@ function Sliders(main, myAudio, myDelay, myTremolo){
 
 "use strict";
 function Tremolo(main){
+  main.lfo.start();
 
   this.createTremolo = function(){
     if (main.mixNode){
-      main.mixNode.disconnect(main.volumeNode);
-      main.mixNode.connect(main.tremoloNode);
-      main.tremoloNode.connect(main.volumeNode);
-      this.setTremolo(0, 10);
+      main.lfo.connect(main.lfoAmp);
+      main.lfoAmp.connect(main.volumeNode.gain);
+      this.setTremolo($('#tremolo-depth').slider('option', 'value') / 200,
+        $('#tremolo-speed').slider('option', 'value'));
     }
   };
 
   this.removeTremolo = function(){
-    main.mixNode.disconnect(main.tremoloNode);
-    main.mixNode.connect(main.volumeNode);
+    main.lfo.amplitude = 0;
+    main.lfoAmp.disconnect(main.volumeNode.gain);
+    main.lfo.disconnect(main.lfoAmp);
   };
 
-  var tremoloInterval;
-  this.setTremolo = function(minGain, speed = 10){
-    if (tremoloInterval) clearInterval(tremoloInterval);
-    let maxGain = 1;
-    let val = 0;
-    let direction;
-    tremoloInterval = setInterval(function(){
-      if (val >= maxGain){
-        direction = 'down';
-      } else if (val <= minGain){
-        direction = 'up';
-      }
-      if (direction === 'down'){
-        val -= (maxGain - minGain) * .1 ;
-        main.tremoloNode.gain.value = val;
-      } else if (direction === 'up'){
-        val += (maxGain - minGain) * .1;
-        main.tremoloNode.gain.value = val;
-      }
-    }, speed);
+  this.setTremolo = function(amplitude, frequency){
+    main.lfoAmp.gain.value = amplitude;
+    main.lfo.frequency.value = frequency;
   };
 }
 
@@ -562,6 +549,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
 const main = new __WEBPACK_IMPORTED_MODULE_5__master_class_js__["a" /* default */]();
 const myAudio = new __WEBPACK_IMPORTED_MODULE_2__audio_handler_js__["a" /* default */](main);
 const myDelay = new __WEBPACK_IMPORTED_MODULE_0__delay_effect_js__["a" /* default */](main);
@@ -570,6 +558,8 @@ const myOscilloscope = new __WEBPACK_IMPORTED_MODULE_1__oscilloscope_effect_js__
 const myRecorder = new __WEBPACK_IMPORTED_MODULE_3__audio_recorder_js__["a" /* default */](main);
 const myPageHandler = new __WEBPACK_IMPORTED_MODULE_6__page_handler_js__["a" /* default */](main, myDelay, myTremolo, myOscilloscope, myAudio);
 const mySliders = new __WEBPACK_IMPORTED_MODULE_7__sliders_js__["a" /* default */](main, myAudio, myDelay, myTremolo);
+
+window.main = main;
 
 let url1 = 'https://s3.amazonaws.com/webfx/sample1.mp3';
 let url2 = 'https://s3.amazonaws.com/webfx/sample2.mp3';

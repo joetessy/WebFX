@@ -1,3 +1,4 @@
+
 import Delay from './delay_effect.js';
 import Oscilloscope from './oscilloscope_effect.js';
 import AudioHandler from './audio_handler.js';
@@ -15,6 +16,8 @@ const myOscilloscope = new Oscilloscope(main);
 const myRecorder = new AudioRecorder(main);
 const myPageHandler = new PageHandler(main, myDelay, myTremolo, myOscilloscope, myAudio);
 const mySliders = new Sliders(main, myAudio, myDelay, myTremolo);
+
+window.main = main;
 
 let url1 = 'https://s3.amazonaws.com/webfx/sample1.mp3';
 let url2 = 'https://s3.amazonaws.com/webfx/sample2.mp3';

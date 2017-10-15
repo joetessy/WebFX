@@ -9,6 +9,7 @@ function Sliders(main, myAudio, myDelay, myTremolo){
     slide: function(event, ui){
       if (main.volumeNode)
       myAudio.setVolume((ui.value) / 100);
+      console.log(ui.value / 100);
     }
   });
 
@@ -64,21 +65,22 @@ function Sliders(main, myAudio, myDelay, myTremolo){
     range: 'min',
     min: 0,
     max: 100,
-    value: 0,
+    value: 50,
     animate: true,
     slide: function(event, ui){
-      myTremolo.setTremolo((ui.value / 100), $('#tremolo-speed').slider('option', 'value'));
+      console.log(main.volumeNode.gain.value * ui.value / 200);
+      myTremolo.setTremolo((main.volumeNode.gain.value * ui.value / 200), $('#tremolo-speed').slider('option', 'value'));
     }
   });
 
   $('#tremolo-speed').slider({
     range: 'min',
-    min: 0.5,
+    min: 0,
     max: 20,
     value: 10,
     animate: true,
     slide: function(event, ui){
-      myTremolo.setTremolo( ($('#tremolo-depth').slider('option', 'value') / 100), ui.value);
+      myTremolo.setTremolo( ($('#tremolo-depth').slider('option', 'value') / 200), ui.value);
     }
   });
 }
