@@ -62,7 +62,8 @@ h2 {
 }
 
 .instructions-container{
-  width: 260px;
+  box-sizing: border-box;
+  width: 280px;
   background-color: #4BB3FD;
   border-radius: 10px;
   border: 1px solid black;
@@ -156,7 +157,8 @@ header {
 }
 
 .user-controls {
-  width: 260px;
+  width: 280px;
+  box-sizing: border-box;
   background-color: #4BB3FD;
   border-radius: 10px;
   border: 1px solid black;
@@ -196,14 +198,12 @@ body {
   color: white;
   display: flex;
   flex-direction: column;
-  width: 40%;
   justify-content: flex-start;
   align-items: center;
   height: 100%;
 }
 
 .user-options {
-  width: 20%;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -216,7 +216,6 @@ body {
   border-radius: 10px;
   border: 1px solid black;
   padding: 10px 15px;
-  margin: 20px;
   position: relative;
 }
 
@@ -275,7 +274,6 @@ body {
 }
 
 .effects {
-  width: 40%;
   display: flex;
   flex-direction: column;
   align-items: center;
