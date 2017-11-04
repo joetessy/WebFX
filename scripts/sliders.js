@@ -8,8 +8,7 @@ function Sliders(main, myAudio, myDelay, myTremolo){
     animate: true,
     slide: function(event, ui){
       if (main.volumeNode)
-      myAudio.setVolume((ui.value) / 100);
-      console.log(ui.value / 100);
+      myAudio.setVolume((ui.value) / 50);
     }
   });
 
