@@ -67,19 +67,18 @@ function Sliders(main, myAudio, myDelay, myTremolo){
     value: 50,
     animate: true,
     slide: function(event, ui){
-      console.log(main.volumeNode.gain.value * ui.value / 200);
-      myTremolo.setTremolo((main.volumeNode.gain.value * ui.value / 200), $('#tremolo-speed').slider('option', 'value'));
+      myTremolo.setTremolo((main.volumeNode.gain.value * ui.value / 100), $('#tremolo-speed').slider('option', 'value'));
     }
   });
 
   $('#tremolo-speed').slider({
     range: 'min',
     min: 0,
-    max: 20,
-    value: 10,
+    max: 14,
+    value: 7,
     animate: true,
     slide: function(event, ui){
-      myTremolo.setTremolo( ($('#tremolo-depth').slider('option', 'value') / 200), ui.value);
+      myTremolo.setTremolo( (main.volumeNode.gain.value * $('#tremolo-depth').slider('option', 'value') / 100), ui.value);
     }
   });
 }

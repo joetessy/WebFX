@@ -5,7 +5,8 @@ function Tremolo(main){
     if (main.mixNode){
       main.lfo.connect(main.lfoAmp);
       main.lfoAmp.connect(main.volumeNode.gain);
-      this.setTremolo($('#tremolo-depth').slider('option', 'value') / 200,
+      this.setTremolo(
+        main.volumeNode.gain.value * $('#tremolo-depth').slider('option', 'value') / 100,
         $('#tremolo-speed').slider('option', 'value'));
     }
   };
