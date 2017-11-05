@@ -8,7 +8,7 @@ function Sliders(main, myAudio, myDelay, myTremolo){
     animate: true,
     slide: function(event, ui){
       if (main.volumeNode)
-      myAudio.setVolume((ui.value) / 50);
+      myAudio.setVolume((ui.value) / 100);
     }
   });
 
@@ -74,8 +74,8 @@ function Sliders(main, myAudio, myDelay, myTremolo){
   $('#tremolo-speed').slider({
     range: 'min',
     min: 0,
-    max: 14,
-    value: 7,
+    max: 20,
+    value: 10,
     animate: true,
     slide: function(event, ui){
       myTremolo.setTremolo( (main.volumeNode.gain.value * $('#tremolo-depth').slider('option', 'value') / 100), ui.value);

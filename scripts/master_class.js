@@ -14,7 +14,7 @@ function MasterClass(){
 
   this.streamSource = null;
   this.mixNode.gain.value = 1;
-  this.volumeNode.gain.value = .5;
+  this.volumeNode.gain.value = 0.5;
   this.delayEffect.delayTime.value = 0.25;
   this.feedback.gain.value = 0;
   this.filter.frequency.value = 10000;

@@ -228,7 +228,7 @@ function MasterClass(){
 
   this.streamSource = null;
   this.mixNode.gain.value = 1;
-  this.volumeNode.gain.value = .5;
+  this.volumeNode.gain.value = 0.5;
   this.delayEffect.delayTime.value = 0.25;
   this.feedback.gain.value = 0;
   this.filter.frequency.value = 10000;
@@ -391,7 +391,7 @@ function Sliders(main, myAudio, myDelay, myTremolo){
     animate: true,
     slide: function(event, ui){
       if (main.volumeNode)
-      myAudio.setVolume((ui.value) / 50);
+      myAudio.setVolume((ui.value) / 100);
     }
   });
 
@@ -457,8 +457,8 @@ function Sliders(main, myAudio, myDelay, myTremolo){
   $('#tremolo-speed').slider({
     range: 'min',
     min: 0,
-    max: 14,
-    value: 7,
+    max: 20,
+    value: 10,
     animate: true,
     slide: function(event, ui){
       myTremolo.setTremolo( (main.volumeNode.gain.value * $('#tremolo-depth').slider('option', 'value') / 100), ui.value);
