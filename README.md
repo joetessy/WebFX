@@ -6,7 +6,7 @@
 
 ## Technologies
 
-WebFX uses Google's Web Audio API for handling audio input and manipulation. Web Audio gives WebFX the following functionality:
+WebFX uses the Web Audio API for handling audio input and manipulation. Web Audio gives WebFX the following functionality:
 - [ ] Audio Input
 - [ ] ON/OFF & Volume Controls
 - [ ] Delay effect (speed, length, level, filter)
